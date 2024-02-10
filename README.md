@@ -30,8 +30,8 @@ Connections are tried in the order they appear in `inference-providers.json`, an
 
 The JSON file bundled with the package will slowly get out of date, as providers and models come and go over time. There are a couple of ways to deal with that:
 
-- by default, `auto_update=True` on the `ProviderList` constructor will download and use the latest version of the JSON posted to GitHub
+- setting `auto_update=True` on the `ProviderList` constructor (like the example code) will download and use the latest version of the JSON posted to GitHub at runtime
 - you can also maintain your own up-to-date or edited copy, and supply it with `json_override` at startup
-- you can fetch the latest JSON with yourself at runtime using `ProviderList.get_updated_provider_list()` and do as you will
+- you can fetch the latest JSON with yourself using `ProviderList.get_updated_provider_list()` and do as you will
 
 
