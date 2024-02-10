@@ -1,0 +1,18 @@
+[project]
+name = "inference-providers"
+version = "0.0.1"
+authors = [
+  { name="Stuart Riffle", email="stuart@rifflemail.com" },
+]
+description = "A collection of commercial LLM inference providers and their available models"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+]
+
+[project.urls]
+Homepage = "https://github.com/stuartriffle/inference-providers"
