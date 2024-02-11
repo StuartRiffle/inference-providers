@@ -36,8 +36,9 @@ class ProviderList:
     def get_canonical_model_names(self):
         """Return a list of all known model names."""
         model_names = set()
-        for provider in self.provider_info:
-            model_names.update(provider.get("model_names", {}).keys())
+        provider_lookup = self.provider_info.get("providers", {})
+        for _, info in provider_lookup.items():
+            model_names.update(info.get("model_names", {}).keys())
         return list(model_names)
 
     def find_model_providers(self, canonical_name):
@@ -46,19 +47,17 @@ class ProviderList:
         provider_lookup = self.provider_info.get("providers", {})
         for provider_name, info in provider_lookup.items():
             model_names = info.get("model_names", {})
-            internal_name = model_names.get(canonical_name, None)
-            if internal_name:
-                connection_info = info.get("connection", {})
-                protocol = connection_info.get("protocol", None)
-                key_var = connection_info.get("api_key", None)
-                url = connection_info.get("endpoint", None)
-                if protocol == "openai":
-                    api_key = os.environ.get(key_var, None)
-                    if api_key:
-                        if url:
-                            url = url.replace("{{model_name}}", internal_name)
-                        connection = (provider_name, url, internal_name, api_key)
-                        candidates.append(connection)
+            if canonical_name in model_names:
+                true_name   = model_names[canonical_name]
+                config      = info.get("connection", {})
+                protocol    = config.get("protocol", None)
+                key_var     = config.get("api_key",  None)
+                url         = config.get("endpoint", None)
+                url         = url.replace("{{model_name}}", true_name) if url else None
+                api_key     = os.environ.get(key_var, None) if key_var else None
+                if api_key and protocol == "openai":
+                    connection = (provider_name, url, true_name, api_key)
+                    candidates.append(connection)
         return candidates
     
     def connect_to_model(self, canonical_name, choose_randomly=False, test=False):
@@ -71,20 +70,13 @@ class ProviderList:
             try:
                 client = OpenAI(api_key=api_key, base_url=endpoint)
                 if test:
-                    response = client.chat.completions.create(model=internal_name, 
-                        messages=[{"role": "system", "content": "Answer precisely."},
-                                  {"role": "user",   "content": "What's your sign, baby?"}])
-                    inference_working = response.choices[0]
-                    if not inference_working:
+                    if not self.get_response(client, internal_name, "Who's your daddy?"):
+                        print(f'[inference-providers] WARNING: no response from model "{canonical_name}" at "{endpoint}"')
                         continue
-                else:
-                    if self.verbose:
-                        warning  = f'provider "{provider["name"]}" does not support model "{canonical_name}"'
-                        print(f'[inference-providers] WARNING: {warning}')
                 return client, internal_name
             except Exception as e:
                 if self.verbose:
-                    print(f'[inference-providers] WARNING: failed to connect to model "{canonical_name}" at "{endpoint}"')
+                    print(f'[inference-providers] WARNING: failed to connect to model "{canonical_name}" at "{endpoint}"\n{e}')
         return None, None
     
     def connect_to_first_available_model(self, model_names, test=False):
@@ -105,10 +97,12 @@ class ProviderList:
         """Get a response from an AI model."""
         try:
             response = client.chat.completions.create(model=model_name, messages=[
-                {"role": "system", "content": "Just play along."},
+                {"role": "system", "content": "Just play along"},
                 {"role": "user",   "content": prompt}])
             return response.choices[0].message.content.strip()
-        except: pass
+        except Exception as e:
+            if self.verbose:
+                print(f'[inference-providers] WARNING: exception running inference on model "{model_name}"\n{e}')            
         return None
 
     def ask_ai(self, question, test=True):

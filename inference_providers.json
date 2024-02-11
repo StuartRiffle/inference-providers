@@ -1,5 +1,4 @@
-{   
-    "_": [ "https://github.com/stuartriffle/inference-providers",
+{ "_": ["https://github.com/stuartriffle/inference-providers",
 
         "Popular models have been given short canonical names, like",
         "'codellama-70b' or 'gpt-4'.",
@@ -121,16 +120,17 @@
             "name":                     "Replicate",
             "website":                  "https://replicate.com",
             "connection": {         
-                "protocol":             "replicate",
+                "protocol":             "openai",
+                "endpoint":             "https://api.replicate.com/v1",
                 "api_key":              "REPLICATE_API_TOKEN"
             },  
             "console":                  "https://replicate.com/dashboard",
             "model_list":               "https://replicate.com/explore",
             "model_names": {    
                 "codellama-34b":        "meta/codellama-34b-instruct",
-                "codellama-70b":        "meta/codellama-70b-instruct:a279116fe47a0f65701a8817188601e2fe8f4b9e04a518789655ea7b995851bf",
+                "codellama-70b" :       "meta/codellama-70b-instruct:a279116fe47a0f65701a8817188601e2fe8f4b9e04a518789655ea7b995851bf",
                 "falcon-40b":           "joehoover/falcon-40b-instruct",
-                "llama-2-7b":           "meta/llama-2-7b-chat",
+                "llama-2-7be":           "meta/llama-2-7b-chat",
                 "llama-2-70b":          "meta/llama-2-70b-chat",
                 "mistral-7b":           "mistralai/mistral-7b-instruct-v0.2",
                 "mixtral-8x7b":         "mistralai/mixtral-8x7b-instruct-v0.1",
@@ -202,11 +202,16 @@
             "model_names": {    
                 "gemini-nano":          "models/gemini-nano",
                 "gemini-pro":           "models/gemini-pro",
-                "gemini-ultra":         "models/gemini-ultra"
+                "gemini":               "models/gemini-pro"
             }
         }
     },
 
+    "__": [
+        "This is used in auto-connect mode to choose the 'best' model",
+        "available. If no provider offers a connection to the highest",
+        "priority model, it tried to find a source for the second, etc."
+    ],
     "auto_model_priority": [
         "gpt-4",
         "gemini-pro",

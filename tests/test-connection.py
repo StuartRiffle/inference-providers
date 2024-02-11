@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from inference_providers import ProviderList
-providers = ProviderList(auto_update=False)
+providers = ProviderList(verbose=True, auto_update=False)
 
 def print_response(client, name, prompt):
     response = client.chat.completions.create(model=name, messages=[
@@ -15,7 +15,9 @@ def print_response(client, name, prompt):
     print(f"{name}: {text}")
     return text
 
-client, name = providers.connect_to_model("mixtral-8x7b")
+print(providers.get_canonical_model_names())
+
+client, name = providers.connect_to_model("llama-2-7be", test=True)
 print(providers.get_response(client, name, "How do chickens work??"))
 
 client, true_name = providers.connect_to_model("llama-2-70b", choose_randomly=True, test=True)
@@ -36,3 +38,7 @@ print(response)
 
 response = providers.ask_ai("Hey, where are you going?")
 print(response)
+
+
+
+['mistral-7b', 'mistral-medium', 'gpt-4', 'wizard-python-34b', 'mixtral-8x7b', 'codellama-34b', 'codellama-70b', 'gpt-4-turbo', 'gpt-3.5', 'llama-2-7b', 'chatgpt', 'codellama-python-34b', 'mistral-small', 'gpt-4-32k', 'codellama-python-70b', 'gemini', 'gemini-nano', 'phind-34b', 'gemini-pro', 'yi-34b', 'falcon-40b', 'llama-2-70b', 'palm', 'mistral-tiny', 'mistral']
