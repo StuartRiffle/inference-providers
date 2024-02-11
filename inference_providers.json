@@ -205,5 +205,17 @@
                 "gemini-ultra":         "models/gemini-ultra"
             }
         }
-    }
+    },
+
+    "auto_model_priority": [
+        "gpt-4",
+        "gemini-pro",
+        "mixtral-8x7b",
+        "llama-2-70b",
+        "gpt-3.5",
+        "palm",
+        "yi-34b",
+        "mistral-7b",
+        "llama-2-7b"
+    ]
 }
