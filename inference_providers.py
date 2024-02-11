@@ -38,7 +38,7 @@ class ProviderList:
             print(f'[inference-providers] {status} list from {update_download_url}')
         return json
 
-    def get_canonical_model_names(self):
+    def get_canonical_names_in_use(self):
         """Return a list of all known model names."""
         model_names = set()
        
@@ -50,12 +50,16 @@ class ProviderList:
         potential_keys = []
         for var_name in os.environ:
             var_value = os.environ[var_name]
-            if not any(var_name.endswith(suffix) for suffix in common_key_suffixes):
-                if os.path.isfile(var_value) or os.path.isdir(var_value):
-                    continue
+            typical_key_name = any(var_name.endswith(suffix) for suffix in common_key_suffixes)
+            if not typical_key_name:
                 if any(invalid_char in var_value for invalid_char in "/\\ "):
+                    # Probably a path
                     continue
-                if len(var_value) < 32:
+                if os.path.isfile(var_value) or os.path.isdir(var_value):
+                    # Definitely a path
+                    continue
+                if len(var_value) < 24:
+                    # Too short: API keys are at least 128 bits (24 characters uuencoded)
                     continue
             potential_keys.append(var_value)
         return potential_keys
@@ -69,11 +73,9 @@ class ProviderList:
                     open_ports.append(port)
             except: pass
         return open_ports
-    
 
     def fuzzy_match_model_name(self, internal_name, canonical_names):
         """Find the closest match to a provider's internal model name in a list of canonical names."""
-
         # Ignore any "path"-style prefix on the provider's internal model name           
         last_sep = max(internal_name.rfind("/"), internal_name.rfind("\\"))
         if last_sep > -1:
@@ -100,12 +102,11 @@ class ProviderList:
             if param_match_failed:
                 continue
 
-            # This one is not obviously wrong
             candidates.append(canonical_name)
 
         # If there are any canonical names that are a prefix match for the internal name, they 
         # are better matches, so discard the rest. This isn't a hard rule, because providers 
-        # can use any names they want internally, but it's a valid tie-breaker.
+        # can use any names they want internally, but it's a good heuristic for breaking ties.
         if len(candidates) > 1:
             prefix_matches = []
             for candidate in candidates:
@@ -120,19 +121,18 @@ class ProviderList:
             if self.verbose:
                 print(f'[inference-providers] WARNING: fuzzy match failed, internal model name "{internal_name}" matches multiple canonical names: {candidates}')
             return None
-                
+               
         # If exactly one candidate survived the filter gauntlet, let's call that a "fuzzy match"
         if len(candidates) == 1:
             if self.verbose:
                 print(f'[inference-providers] fuzzy matching internal model name "{internal_name}" -> {candidates[0]}') 
             return candidates[0]
 
-        # If no candidates survived, the internal name is not recognized
+        # No clue what that thing is
         if self.verbose:
             print(f'[inference-providers] WARNING: fuzzy match failed for internal model name "{internal_name}"; no candidates")')
 
         return None
-
 
     # Exhaustive search for local port/key/model combinations that talk back
     #
@@ -148,8 +148,7 @@ class ProviderList:
         connections = {}
         keys = self.detect_local_api_keys()
         ports = self.detect_local_endpoints()
-        canonical_names = self.get_canonical_model_names()
-
+        canonical_names = self.get_canonical_names_in_use()
         for port in ports:
             for key in keys:
                 try:
@@ -164,7 +163,6 @@ class ProviderList:
                 except: pass
 
         return connections
-
 
     def find_model_providers(self, canonical_name):
         """Find providers that support a given model."""

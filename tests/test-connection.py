@@ -15,7 +15,7 @@ def print_response(client, name, prompt):
     print(f"{name}: {text}")
     return text
 
-print(providers.get_canonical_model_names())
+print(providers.get_canonical_names_in_use())
 
 client, name = providers.connect_to_model("llama-2-7be", test=True)
 print(providers.get_response(client, name, "How do chickens work??"))
