@@ -59,7 +59,7 @@
             "website":                  "https://www.lepton.ai",
             "connection": {         
                 "protocol":             "openai",
-                "endpoint":             "https://{{model_name}}.lepton.run/api/v1/",
+                "endpoint":             "https://$MODEL_NAME.lepton.run/api/v1/",
                 "api_key":              "LEPTON_API_KEY"
             },  
             "console":                  "https://dashboard.lepton.ai/",
