@@ -20,9 +20,7 @@ from inference_providers import ProviderList
 providers = ProviderList(auto_update=True)
 
 client, name = providers.connect_to_model("mixtral-8x7b")
-response = client.completions.create(model=name, prompt="What's your sign?")
-
-print(response.choices[0].text)
+print(providers.get_response(client, name, "What's your sign?"))
 ```
 Behold, artificial intelligence:
 > I'm a Taurus.

@@ -15,6 +15,9 @@ def print_response(client, name, prompt):
     print(f"{name}: {text}")
     return text
 
+client, name = providers.connect_to_model("mixtral-8x7b")
+print(providers.get_response(client, name, "How do chickens work??"))
+
 client, true_name = providers.connect_to_model("llama-2-70b", choose_randomly=True, test=True)
 if client:
     print_response(client, true_name, "Knock knock (who's there?) amogus (amogus who?) ...")
@@ -27,6 +30,9 @@ if client:
 client, true_name = providers.connect_to_ai()
 if client:
     print_response(client, true_name, "What's your sign, baby?")
+
+response = providers.get_response(client, true_name, "Hey, where are you going?")
+print(response)
 
 response = providers.ask_ai("Hey, where are you going?")
 print(response)

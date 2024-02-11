@@ -1,8 +1,8 @@
 # inference-providers.py
 # https://github.com/stuartriffle/inference-providers
 
-import os, random, json, requests
 from openai import OpenAI
+import os, random, json, requests
 
 update_download_url = "https://raw.githubusercontent.com/StuartRiffle/inference-providers/main/inference-providers.json"
 
@@ -19,6 +19,19 @@ class ProviderList:
             with open(default_path, "r") as f:
                 json_text = f.read()
         self.provider_info = json.loads(json_text)
+
+    @staticmethod
+    def get_updated_provider_list(verbose=False):
+        """Download the latest provider list from the GitHub repo."""
+        json = None
+        try:
+            response = requests.get(update_download_url)
+            json = response.text
+        except: pass
+        if verbose:
+            status = "updated" if json else "WARNING: unable to update"
+            print(f'[inference-providers] {status} list from {update_download_url}')
+        return json
 
     def get_canonical_model_names(self):
         """Return a list of all known model names."""
@@ -66,7 +79,7 @@ class ProviderList:
                         continue
                 else:
                     if self.verbose:
-                        warning  = f'provider "{provider["name"]}" does not support model "{canonical_name}", update providers.json'
+                        warning  = f'provider "{provider["name"]}" does not support model "{canonical_name}"'
                         print(f'[inference-providers] WARNING: {warning}')
                 return client, internal_name
             except Exception as e:
@@ -74,9 +87,9 @@ class ProviderList:
                     print(f'[inference-providers] WARNING: failed to connect to model "{canonical_name}" at "{endpoint}"')
         return None, None
     
-    def connect_to_first_available_model(self, canonical_names, test=False):
+    def connect_to_first_available_model(self, model_names, test=False):
         """Create an OpenAI client for a model using one of the known compatible providers."""
-        for canonical_name in canonical_names:
+        for canonical_name in model_names:
             client, internal_name = self.connect_to_model(canonical_name, test=test)
             if client:
                 return client, internal_name
@@ -88,30 +101,19 @@ class ProviderList:
         client, internal_name = self.connect_to_first_available_model(priority_order, test=test)
         return client, internal_name
     
-    def ask_ai(self, question, test=True):
-        """Ask a question to an arbitrary AI model."""
-        client, true_name = self.connect_to_ai(test=test)
-        if client:
-            try:
-                response = client.chat.completions.create(model=true_name, messages=[
-                    {"role": "system", "content": "Play along, entertain."},
-                    {"role": "user",   "content": question}])
-                return response.choices[0].message.content.strip()
-            except: pass
-        return None
-    
-    @staticmethod
-    def get_updated_provider_list(verbose=False):
-        """Download the latest provider list from the GitHub repo."""
-        json = None
+    def get_response(self, client, model_name, prompt):
+        """Get a response from an AI model."""
         try:
-            response = requests.get(update_download_url)
-            json = response.text
+            response = client.chat.completions.create(model=model_name, messages=[
+                {"role": "system", "content": "Just play along."},
+                {"role": "user",   "content": prompt}])
+            return response.choices[0].message.content.strip()
         except: pass
+        return None
 
-        if verbose:
-            status = "updated" if json else "WARNING: unable to update"
-            print(f'[inference-providers] {status} list from {update_download_url}')
-
-        return json
+    def ask_ai(self, question, test=True):
+        """Scream into the void."""
+        client, true_name = self.connect_to_ai(test=test)
+        response = self.get_response(client, true_name, question)
+        return response or "?"
     
