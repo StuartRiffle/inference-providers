@@ -17,15 +17,15 @@ def print_response(client, name, prompt):
 
 print(providers.get_canonical_names_in_use())
 
-client, name = providers.connect_to_model("llama-2-7be", test=True)
+client, name = providers.connect_to_model("codellama-70be", verify=True)
 print(providers.get_response(client, name, "How do chickens work??"))
 
-client, true_name = providers.connect_to_model("llama-2-70b", choose_randomly=True, test=True)
+client, true_name = providers.connect_to_model("llama-2-70b", choose_randomly=True, verify=True)
 if client:
     print_response(client, true_name, "Knock knock (who's there?) amogus (amogus who?) ...")
 
 client, true_name = providers.connect_to_first_available_model([
-    "gpt-4", "llama-2-70b", "mistral-7b", "gpt-3.5"], test=True)
+    "gpt-4", "llama-2-70b", "mistral-7b", "gpt-3.5"], verify=True)
 if client:
     print_response(client, true_name, "What is the meow-iest animal?")
 

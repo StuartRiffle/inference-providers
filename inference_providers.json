@@ -28,10 +28,36 @@
             "model_list":               "https://platform.openai.com/docs/models",  
             "model_names": {        
                 "gpt-3.5":              "gpt-3.5-turbo",
-                "gpt-4":                "gpt-4",
-                "gpt-4-32k":            "gpt-4-32k",
-                "gpt-4-turbo":          "gpt-4-turbo-preview",
-                "chatgpt":              "gpt-4"
+                "gpt-4":                "gpt-4"
+            }
+        },
+
+        "palm": {
+            "name":                     "PaLM",
+            "website":                  "https://ai.google/discover/palm2",
+            "connection": {         
+                "protocol":             "google",
+                "api_key":              "GOOGLE_API_KEY"
+            },  
+            "console":                  "https://developers.google.com/",
+            "model_list":               "https://ai.google.dev/models/palm",   
+            "model_names": {    
+                "palm-2":               "models/text-bison-001"
+            }   
+        },  
+
+        "gemini": { 
+            "name":                     "Gemini",
+            "website":                  "https://deepmind.google",
+            "connection": {         
+                "protocol":             "gemini",
+                "api_key":              "GEMINI_API_KEY"
+            },  
+            "console":                  "https://ai.google.dev",
+            "model_list":               "https://ai.google.dev/models",   
+            "model_names": {    
+                "gemini-pro":           "models/gemini-pro",
+                "gemini-ultra":         "models/gemini-ultra"
             }
         },
 
@@ -53,6 +79,63 @@
                 "mistral":              "mistral-medium"
             }
         },
+
+        "groq": {
+            "name":                     "Groq",
+            "website":                  "https://groq.com",
+            "connection": {         
+                "protocol":             "openai",
+                "endpoint":             "https://api.groq.com",
+                "api_key":              "GROQ_API_KEY"
+            },  
+            "console":                  "https://groq.com/",
+            "model_list":               "https://groq.com/",
+            "model_names": {
+                "llama-2-70b":          "llama2-70b-4096",
+                "mixtral-8x7b":         "mixtral-8x7b-32768"
+            }
+        },
+
+        "openrouter": {
+            "name":                     "OpenRouter AI",
+            "website":                  "https://openrouter.ai",
+            "connection": {         
+                "protocol":             "openai",
+                "endpoint":             "https://openrouter.ai/api/v1",
+                "api_key":              "OPENROUTER_API_KEY"
+            },  
+            "console":                  "https://openrouter.ai/account",
+            "model_list":               "https://openrouter.ai/models",
+            "model_names": {    
+                "codellama-70b":        "codellama/codellama-70b-instruct",
+                "codellama-34b":        "codellama/codellama-34b-instruct",
+                "llama-2-7b":           "meta-llama/llama-2-7b-chat",
+                "llama-2-70b":          "meta-llama/llama-2-70b-chat",
+                "codellama-python-34b": "codellama/codellama-python-34b-instruct",
+                "codellama-python-70b": "codellama/codellama-python-70b-instruct",
+                "mistral-7b":           "mistralai/mistral-7b-instruct",
+                "mistral-tiny":         "mistralai/mistral-tiny", 
+                "mixtral-8x7b":         "mistralai/mixtral-8x7b-instruct",
+                "mistral-small":        "mistralai/mistral-small", 
+                "mistral-medium":       "mistralai/mistral-small", 
+                "phind-34b":            "phind/phind-codellama-34b",
+                "pplx-70b":             "perplexity/pplx-70b-online",
+                "pplx-7b":              "perplexity/pplx-7b-online",
+                "yi-34b":               "01-ai/yi-34b-chat",
+                "palm-2":               "google/palm-2-chat-bison-32k", 
+                "palm-2-code":          "google/palm-2-codechat-bison-32k",     
+                "gemini-pro":           "google/gemini-pro",
+                "gpt-3.5":              "openai/gpt-3.5-turbo",
+                "gpt-3.5-turbo":        "openai/gpt-3.5-turbo",
+                "gpt-4":                "openai/gpt-4",
+                "gpt-4-32k":            "openai/gpt-4-32k",
+                "gpt-4-turbo":          "openai/gpt-4-turbo-preview",
+                "goliath-120b":         "alpindale/goliath-120b",
+                "claude-2":             "anthropic/claude-2",
+                "dolphin-8x7b":         "cognitivecomputations/dolphin-mixtral-8x7b",
+                "openhermes-7b":        "teknium/openhermes-2.5-mistral-7b"
+            }
+        },        
 
         "lepton": {
             "name":                     "Lepton AI",
@@ -128,9 +211,9 @@
             "model_list":               "https://replicate.com/explore",
             "model_names": {    
                 "codellama-34b":        "meta/codellama-34b-instruct",
-                "codellama-70b" :       "meta/codellama-70b-instruct:a279116fe47a0f65701a8817188601e2fe8f4b9e04a518789655ea7b995851bf",
+                "codellama-70be" :       "meta/codellama-70b-instruct:a279116fe47a0f65701a8817188601e2fe8f4b9e04a518789655ea7b995851bf",
                 "falcon-40b":           "joehoover/falcon-40b-instruct",
-                "llama-2-7be":           "meta/llama-2-7b-chat",
+                "llama-2-7b":           "meta/llama-2-7b-chat",
                 "llama-2-70b":          "meta/llama-2-70b-chat",
                 "mistral-7b":           "mistralai/mistral-7b-instruct-v0.2",
                 "mixtral-8x7b":         "mistralai/mixtral-8x7b-instruct-v0.1",
@@ -172,38 +255,67 @@
                 "codellama-70b":        "codellama-70b-instruct",
                 "llama-2-70b":          "llama-2-70b-chat",
                 "mistral-7b":           "mistral-7b-instruct",
-                "mixtral-8x7b":         "mixtral-8x7b-instruct"
+                "mixtral-8x7b":         "mixtral-8x7b-instruct",
+                "pplx-7b":              "pplx-7b-online",
+                "pplx-70b":             "pplx-70b-online"
             }
         },
 
-        "google": {
-            "name":                     "Google",
-            "website":                  "https://ai.google/discover/palm2",
+        "octo": {
+            "name":                     "Octo AI",
+            "website":                  "https://octo.ai/",
             "connection": {         
-                "protocol":             "google",
-                "api_key":              "GOOGLE_API_KEY"
+                "protocol":             "openai",
+                "endpoint":             "https://text.octoai.run",
+                "api_key":              "OCTOAI_TOKEN"
             },  
-            "console":                  "https://developers.google.com/",
-            "model_list":               "https://ai.google.dev/models/palm",   
+            "console":                  "https://octoai.cloud/settings",
+            "model_list":               "https://octo.ai/docs/text-gen-solution/getting-started",
             "model_names": {    
-                "palm":                 "models/text-bison-001"
-            }   
-        },  
-
-        "gemini": { 
-            "name":                     "Gemini",
-            "website":                  "https://deepmind.google",
-            "connection": {         
-                "protocol":             "gemini",
-                "api_key":              "GEMINI_API_KEY"
-            },  
-            "console":                  "https://ai.google.dev",
-            "model_list":               "https://ai.google.dev/models",   
-            "model_names": {    
-                "gemini-nano":          "models/gemini-nano",
-                "gemini-pro":           "models/gemini-pro",
-                "gemini":               "models/gemini-pro"
+                "llama-2-13b":          "llama-2-13b-chat-fp16",
+                "llama-2-70b":          "llama-2-70b-chat-fp16",
+                "codellama-7b":         "codellama-7b-instruct-fp16",
+                "codellama-13b":        "codellama-13b-instruct-fp16",
+                "codellama-34b":        "codellama-34b-instruct-fp16",
+                "codellama-70b":        "codellama-70b-instruct-fp16",
+                "mistral-7b":           "mistral-7b-instruct-fp16",
+                "mixtral-8x7b":         "mixtral-8x7b-instruct-fp16"
             }
+        },
+
+        "deepinfra": {
+            "name":                     "deepinfra",
+            "website":                  "https://deepinfra.com",
+            "connection": {         
+                "protocol":             "openai",
+                "endpoint":             "https://api.deepinfra.com/v1/openai",
+                "api_key":              "DEEPINFRA_API_KEY",
+            },  
+            "console":                  "https://deepinfra.com/dash",
+            "model_list":               "https://deepinfra.com/models",
+            "model_names": {    
+                "codellama-34b":        "codellama/CodeLlama-34b-Instruct-hf",
+                "codellama-70b":        "codellama/CodeLlama-70b-Instruct-hf",
+                "phind-34b":            "Phind/Phind-CodeLlama-34B-v2",
+                "llama-2-7b":           "meta-llama/Llama-2-7b-chat-hf",
+                "llama-2-70b":          "meta-llama/Llama-2-70b-chat-hf",
+                "mistral-7b":           "mistralai/Mistral-7B-Instruct-v0.1",
+                "mixtral-8x7b":         "mistralai/Mixtral-8x7B-Instruct-v0.1",
+                "yi-34b":               "01-ai/Yi-34B-Chat",
+                "dolphin-8x7b":         "cognitivecomputations/dolphin-2.6-mixtral-8x7b",
+                "starcoder-15b":        "bigcode/starcoder"
+            }
+        },
+
+        "localhost": { 
+            "_":                        "Placeholder, will be named local-8080 etc at runtime",
+            "name":                     "localhost",
+            "website":                  "http://127.0.0.1",
+            "connection": {
+                "protocol":             "openai",
+                "endpoint":             "http://localhost:$PORT",
+            },
+            "model_names": {}
         }
     },
 
