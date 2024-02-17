@@ -5,6 +5,21 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from inference_providers import ProviderList
 providers = ProviderList(verbose=True, auto_update=False)
 
+
+all_connections = providers.find_all_model_providers()
+skipping = True
+for connection in all_connections:
+    id, url, internal_name, key = connection
+    if id == "replicate":
+        print(f"{id} {internal_name}: ", end="", flush=True)
+        response = "<<<FAIL>>>"
+        client = providers.connect_to_model_endpoint(url, key, internal_name, verify=False)
+        if client:
+            response = providers.get_response(client, internal_name, "Reply with one word only: the sound a cat makes. No commentary, just the word, then stop. No emoji, no jokes.")
+        print(f"{response}")
+
+
+
 def print_response(client, name, prompt):
     response = client.chat.completions.create(model=name, messages=[
         {"role": "system", "content": "Just play along."},
@@ -39,6 +54,3 @@ print(response)
 response = providers.ask_ai("Hey, where are you going?")
 print(response)
 
-
-
-['mistral-7b', 'mistral-medium', 'gpt-4', 'wizard-python-34b', 'mixtral-8x7b', 'codellama-34b', 'codellama-70b', 'gpt-4-turbo', 'gpt-3.5', 'llama-2-7b', 'chatgpt', 'codellama-python-34b', 'mistral-small', 'gpt-4-32k', 'codellama-python-70b', 'gemini', 'gemini-nano', 'phind-34b', 'gemini-pro', 'yi-34b', 'falcon-40b', 'llama-2-70b', 'palm', 'mistral-tiny', 'mistral']

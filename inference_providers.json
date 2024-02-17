@@ -65,7 +65,8 @@
             "name":                     "Mistral AI",
             "website":                  "https://mistral.ai/",
             "connection": {         
-                "protocol":             "mistral",
+                "protocol":             "openai",
+                "endpoint":             "https://api.mistral.ai/v1",
                 "api_key":              "MISTRAL_API_KEY"
             },  
             "console":                  "https://console.mistral.ai/",
@@ -85,7 +86,7 @@
             "website":                  "https://groq.com",
             "connection": {         
                 "protocol":             "openai",
-                "endpoint":             "https://api.groq.com",
+                "endpoint":             "https://api.groq.com/openai/v1",
                 "api_key":              "GROQ_API_KEY"
             },  
             "console":                  "https://groq.com/",
@@ -107,33 +108,29 @@
             "console":                  "https://openrouter.ai/account",
             "model_list":               "https://openrouter.ai/models",
             "model_names": {    
+                "claude-2":             "anthropic/claude-2",
+                "codellama-34b":        "meta-llama/codellama-34b-instruct",
                 "codellama-70b":        "codellama/codellama-70b-instruct",
-                "codellama-34b":        "codellama/codellama-34b-instruct",
-                "llama-2-7b":           "meta-llama/llama-2-7b-chat",
+                "dolphin-8x7b":         "cognitivecomputations/dolphin-mixtral-8x7b",
+                "gemini-pro":           "google/gemini-pro",
+                "goliath-120b":         "alpindale/goliath-120b",
+                "gpt-3.5":              "openai/gpt-3.5-turbo",
+                "gpt-4-32k":            "openai/gpt-4-32k",
+                "gpt-4-turbo":          "openai/gpt-4-turbo-preview",
+                "gpt-4":                "openai/gpt-4",
                 "llama-2-70b":          "meta-llama/llama-2-70b-chat",
-                "codellama-python-34b": "codellama/codellama-python-34b-instruct",
-                "codellama-python-70b": "codellama/codellama-python-70b-instruct",
                 "mistral-7b":           "mistralai/mistral-7b-instruct",
+                "mistral-medium":       "mistralai/mistral-small", 
+                "mistral-small":        "mistralai/mistral-small", 
                 "mistral-tiny":         "mistralai/mistral-tiny", 
                 "mixtral-8x7b":         "mistralai/mixtral-8x7b-instruct",
-                "mistral-small":        "mistralai/mistral-small", 
-                "mistral-medium":       "mistralai/mistral-small", 
+                "openhermes-7b":        "teknium/openhermes-2.5-mistral-7b",
+                "palm-2-code":          "google/palm-2-codechat-bison-32k",     
+                "palm-2":               "google/palm-2-chat-bison-32k", 
                 "phind-34b":            "phind/phind-codellama-34b",
                 "pplx-70b":             "perplexity/pplx-70b-online",
                 "pplx-7b":              "perplexity/pplx-7b-online",
-                "yi-34b":               "01-ai/yi-34b-chat",
-                "palm-2":               "google/palm-2-chat-bison-32k", 
-                "palm-2-code":          "google/palm-2-codechat-bison-32k",     
-                "gemini-pro":           "google/gemini-pro",
-                "gpt-3.5":              "openai/gpt-3.5-turbo",
-                "gpt-3.5-turbo":        "openai/gpt-3.5-turbo",
-                "gpt-4":                "openai/gpt-4",
-                "gpt-4-32k":            "openai/gpt-4-32k",
-                "gpt-4-turbo":          "openai/gpt-4-turbo-preview",
-                "goliath-120b":         "alpindale/goliath-120b",
-                "claude-2":             "anthropic/claude-2",
-                "dolphin-8x7b":         "cognitivecomputations/dolphin-mixtral-8x7b",
-                "openhermes-7b":        "teknium/openhermes-2.5-mistral-7b"
+                "yi-34b":               "01-ai/yi-34b-chat"
             }
         },        
 
@@ -185,41 +182,27 @@
             "console":                  "https://api.together.xyz/settings",
             "model_list":               "https://docs.together.ai/docs/inference-models",
             "model_names": {
-                "codellama-34b":        "codellama/CodeLlama-34b-Instruct-hf",
+                "wizard-70b":           "WizardLM/WizardLM-70B-V1.0",
                 "falcon-40b":           "togethercomputer/falcon-40b-instruct",
-                "llama-2-7b":           "togethercomputer/Llama-2-7B-32K-Instruct",
+                "codellama-34b":        "togethercomputer/CodeLlama-34b-Instruct",
+                "deepseek-34b":         "deepseek-ai/deepseek-coder-33b-instruct",
                 "llama-2-70b":          "togethercomputer/llama-2-70b-chat",
-                "codellama-python-34b": "codellama/CodeLlama-34b-Python-hf",
-                "codellama-python-70b": "codellama/CodeLlama-70b-Python-hf",
+                "llama-2-7b":           "togethercomputer/Llama-2-7B-32K-Instruct",
                 "mistral-7b":           "mistralai/Mistral-7B-Instruct-v0.2",
                 "mixtral-8x7b":         "mistralai/Mixtral-8x7B-Instruct-v0.1",
+                "openchat-7b":          "openchat/openchat-3.5-1210",
                 "phind-34b":            "Phind/Phind-CodeLlama-34B-v2",
-                "wizard-python-34b":    "WizardLM/WizardCoder-Python-34B-V1.0",
+                "qwen-72b":             "Qwen/Qwen1.5-72B-Chat",
                 "yi-34b":               "zero-one-ai/Yi-34B-Chat"
+            },
+            "not_working": {
+                "codellama-python-34b": "togethercomputer/CodeLlama-34b-Python",
+                "codellama-python-70b": "codellama/CodeLlama-70b-Python-hf",
+                "solar-10b":            "upstage/SOLAR-10.7B-Instruct-v1.0",
+                "wizard-python-34b":    "WizardLM/WizardCoder-Python-34B-V1.0"
             }
         },
 
-        "replicate": {
-            "name":                     "Replicate",
-            "website":                  "https://replicate.com",
-            "connection": {         
-                "protocol":             "openai",
-                "endpoint":             "https://api.replicate.com/v1",
-                "api_key":              "REPLICATE_API_TOKEN"
-            },  
-            "console":                  "https://replicate.com/dashboard",
-            "model_list":               "https://replicate.com/explore",
-            "model_names": {    
-                "codellama-34b":        "meta/codellama-34b-instruct",
-                "codellama-70be" :       "meta/codellama-70b-instruct:a279116fe47a0f65701a8817188601e2fe8f4b9e04a518789655ea7b995851bf",
-                "falcon-40b":           "joehoover/falcon-40b-instruct",
-                "llama-2-7b":           "meta/llama-2-7b-chat",
-                "llama-2-70b":          "meta/llama-2-70b-chat",
-                "mistral-7b":           "mistralai/mistral-7b-instruct-v0.2",
-                "mixtral-8x7b":         "mistralai/mixtral-8x7b-instruct-v0.1",
-                "yi-34b":               "01-ai/yi-34b-chat"
-            }
-        },
 
         "fireworks": {
             "name":                     "fireworks.ai",
@@ -236,7 +219,6 @@
                 "codellama-70b":        "accounts/fireworks/models/llama-v2-70b-code-instruct",
                 "llama-2-7b":           "accounts/fireworks/models/llama-v2-7b-chat",
                 "llama-2-70b":          "accounts/fireworks/models/llama-v2-70b-chat",
-                "mistral-7b":           "accounts/fireworks/models/mistral-7b-instruct",
                 "mixtral-8x7b":         "accounts/fireworks/models/mixtral-8x7b-instruct"
             }   
         },  
@@ -246,6 +228,7 @@
             "website":                  "https://perplexity.ai",
             "connection": { 
                 "protocol":             "perplexity",
+                "endpoint":             "https://api.perplexity.ai",
                 "api_key":              "PERPLEXITYAI_API_KEY"
             },  
             "console":                  "https://www.perplexity.ai/settings/account",
@@ -266,7 +249,7 @@
             "website":                  "https://octo.ai/",
             "connection": {         
                 "protocol":             "openai",
-                "endpoint":             "https://text.octoai.run",
+                "endpoint":             "https://text.octoai.run/v1",
                 "api_key":              "OCTOAI_TOKEN"
             },  
             "console":                  "https://octoai.cloud/settings",
@@ -289,7 +272,7 @@
             "connection": {         
                 "protocol":             "openai",
                 "endpoint":             "https://api.deepinfra.com/v1/openai",
-                "api_key":              "DEEPINFRA_API_KEY",
+                "api_key":              "DEEPINFRA_API_KEY"
             },  
             "console":                  "https://deepinfra.com/dash",
             "model_list":               "https://deepinfra.com/models",
@@ -302,10 +285,11 @@
                 "mistral-7b":           "mistralai/Mistral-7B-Instruct-v0.1",
                 "mixtral-8x7b":         "mistralai/Mixtral-8x7B-Instruct-v0.1",
                 "yi-34b":               "01-ai/Yi-34B-Chat",
-                "dolphin-8x7b":         "cognitivecomputations/dolphin-2.6-mixtral-8x7b",
-                "starcoder-15b":        "bigcode/starcoder"
+                "dolphin-8x7b":         "cognitivecomputations/dolphin-2.6-mixtral-8x7b"
             }
         },
+
+
 
         "localhost": { 
             "_":                        "Placeholder, will be named local-8080 etc at runtime",
@@ -313,11 +297,38 @@
             "website":                  "http://127.0.0.1",
             "connection": {
                 "protocol":             "openai",
-                "endpoint":             "http://localhost:$PORT",
+                "endpoint":             "http://localhost:$PORT"
             },
             "model_names": {}
         }
     },
+
+    "broken": {
+        "replicate": {
+            "_":                        "Replicate's endpoint uses non-standard header 'Authentication: Token' instead of Bearer",
+
+            "name":                     "Replicate",
+            "website":                  "https://replicate.com",
+            "connection": {         
+                "protocol":             "openai",
+                "endpoint":             "https://api.replicate.com",
+                "api_key":              "REPLICATE_API_TOKEN"
+            },  
+            "console":                  "https://replicate.com/dashboard",
+            "model_list":               "https://replicate.com/explore",
+            "model_names": {    
+                "codellama-34b":        "meta/codellama-34b-instruct",
+                "codellama-70b" :       "meta/codellama-70b-instruct:a279116fe47a0f65701a8817188601e2fe8f4b9e04a518789655ea7b995851bf",
+                "falcon-40b":           "joehoover/falcon-40b-instruct",
+                "llama-2-7b":           "meta/llama-2-7b-chat",
+                "llama-2-70b":          "meta/llama-2-70b-chat",
+                "mistral-7b":           "mistralai/mistral-7b-instruct-v0.2",
+                "mixtral-8x7b":         "mistralai/mixtral-8x7b-instruct-v0.1",
+                "yi-34b":               "01-ai/yi-34b-chat"
+            }
+        }
+    },
+
 
     "__": [
         "This is used in auto-connect mode to choose the 'best' model",

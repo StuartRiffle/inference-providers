@@ -3,11 +3,10 @@
 
 import difflib
 from openai import OpenAI
-from natsort import natsorted
 import os, random, json, requests
 
 json_update_download_url  = "https://raw.githubusercontent.com/StuartRiffle/inference-providers/main/inference-providers.json"
-common_oia_server_ports   = [1234, 3000, 5000, 7860, 7861, 8000, 8080, 9997, 11434, 18888]
+common_oia_server_ports   = [1234, 3000, 5000, 7860, 7861, 8000, 8111, 8080, 8888, 9997, 11434, 18888]
 common_key_var_substrings = ["_API", "_KEY", "_SECRET", "_TOKEN", "ACCESSKEY", "SECRETKEY"]
 common_api_key_prefixes   = ["esecret_", "sk-", "pplx-", "r8_", "gsk-"]
 
@@ -44,7 +43,7 @@ class ProviderList:
         model_names = set()
         for _, info in self.provider_info.items():
             model_names.update(info.get("model_names", {}).keys())
-        return list(model_names)
+        return sorted(list(model_names))
 
     def detect_local_api_keys(self):
         potential_keys = []
@@ -189,40 +188,48 @@ class ProviderList:
 
     def find_model_providers(self, canonical_name=None):
         """Find providers that support a given model."""
-        gather_all = not canonical_name
         candidates = []
+        if canonical_name:
+            targets = [canonical_name]
+        else:
+            targets = self.get_canonical_names_in_use()
 
         for provider_name, info in self.provider_info.items():
             model_names = info.get("model_names", {})
-            if gather_all or canonical_name in model_names:
-                true_name = model_names[canonical_name]
-                config    = info.get("connection", {})
-                protocol  = config.get("protocol", None)
-                key_var   = config.get("api_key",  None)
-                url       = config.get("endpoint", None)
-                url       = url.replace("$MODEL_NAME", true_name) if url else None
-                api_key   = os.environ.get(key_var, None) if key_var else None
+            for target in targets:
+                if target in model_names.keys():
+                    true_name = model_names[target]
+                    config    = info.get("connection", {})
+                    protocol  = config.get("protocol", None)
+                    key_var   = config.get("api_key",  None)
+                    url       = config.get("endpoint", None)
+                    url       = url.replace("$MODEL_NAME", true_name) if url else None
+                    api_key   = os.environ.get(key_var, None) if key_var else None
 
-                if api_key and protocol == "openai":
-                    connection = (provider_name, url, true_name, api_key)
-                    candidates.append(connection)
+                    if api_key and protocol == "openai":
+                        connection = (provider_name, url, true_name, api_key)
+                        candidates.append(connection)
 
         return candidates
     
+    def find_all_model_providers(self):
+        """Find all providers that support any model."""
+        return self.find_model_providers(None)
 
-    def connect_to_model_endpoint(self, endpoint, api_key, model_name, verify=False):
+    def connect_to_model_endpoint(self, endpoint, api_key, internal_name, verify=False):
         """Create an OpenAI client for a model using a specific provider."""
         try:
             client = OpenAI(api_key=api_key, base_url=endpoint)
             if verify:
-                if not self.get_response(client, model_name, "Who's your daddy?"):
-                    print(f'[inference-providers] WARNING: no response from model "{model_name}" at "{endpoint}"')
-                    return None, None
-            return client, model_name
+                if not self.get_response(client, internal_name, "Who's your daddy?"):
+                    print(f'[inference-providers] WARNING: no response from model "{internal_name}" at "{endpoint}"')
+                    return None
+            client.default_headers["Authorization"] = f"Token {api_key}"
+            return client
         except Exception as e:
             if self.verbose:
-                print(f'[inference-providers] WARNING: failed to connect to model "{model_name}" at "{endpoint}"\n{e}')
-        return None, None
+                print(f'[inference-providers] WARNING: failed to connect to model "{internal_name}" at "{endpoint}"\n{e}')
+        return None
 
     
     def connect_to_model(self, canonical_name, choose_randomly=False, verify=False):
@@ -231,18 +238,11 @@ class ProviderList:
         if choose_randomly:
              random.shuffle(candidates)
         for connection in candidates:
-        
-            provider, endpoint, internal_name, api_key = connection
-            try:
-                client = OpenAI(api_key=api_key, base_url=endpoint)
-                if verify:
-                    if not self.get_response(client, internal_name, "Who's your daddy?"):
-                        print(f'[inference-providers] WARNING: no response from model "{canonical_name}" at "{endpoint}"')
-                        continue
+            _, endpoint, internal_name, api_key = connection
+            client = self.connect_to_model_endpoint(endpoint, api_key, internal_name, verify=verify)
+            if client:
                 return client, internal_name
-            except Exception as e:
-                if self.verbose:
-                    print(f'[inference-providers] WARNING: failed to connect to model "{canonical_name}" at "{endpoint}"\n{e}')
+            
         return None, None
     
     def connect_to_first_available_model(self, model_names, verify=False):
@@ -269,7 +269,6 @@ class ProviderList:
                     {"role": "user",   "content": prompt}
                 ])
             content = response.choices[0].message.content.strip()
-            print(content)
             return content
         except Exception as e:
             if self.verbose:

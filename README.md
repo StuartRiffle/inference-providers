@@ -28,9 +28,7 @@ If you are not too picky about exactly which model you use, you can submit a lis
 client, name = providers.connect_to_first_available_model([
     "mistral-7b", "llama-2-7b", "gpt-3.5", "gemini-nano"])
 ```
-- For trivial tasks, start with the cheapest/fastest model that can do the job, and fall back to slower ones.
-- For complex tasks, put the smartest models first, and fall back to less capable ones.
-- It's fine to include models from paid subscription services in the list. They will be skipped if the user does not have access, but used opportunistically if keys are found.
+It's fine to include models from paid subscription services in the list. They will be skipped if the user does not have access, but used opportunistically if keys are found.
 
 
 
@@ -110,11 +108,20 @@ If you add a model, but it's insane and keeps repeating itself, you might be tal
 
 ### Supported inference providers
 
-||||||
-|-----|-----|-----|----|----|
-|[OpenAI](https://platform.openai.com/) ||[Anyscale](https://anyscale.com)  ||[fireworks.ai](https://www.fireworks.ai/)|
-|[Google](https://deepmind.google)      ||[Lepton AI](https://www.lepton.ai)||[perplexity.ai](https://perplexity.ai)   |
-|[Mistral AI](https://mistral.ai)       ||[Replicate](https://replicate.com)||[together.ai](https://www.together.ai/)  |
+- [Anyscale](https://anyscale.com)
+- [deepinfra](https://deepinfra.com)
+- [fireworks.ai](https://fireworks.ai)
+- [Gemini](https://deepmind.google)
+- [Groq](https://groq.com)
+- [Lepton AI](https://www.lepton.ai)
+- [Mistral AI](https://mistral.ai/)
+- [Octo AI](https://octo.ai/)
+- [OpenAI](https://openai.com)
+- [OpenRouter AI](https://openrouter.ai)
+- [PaLM](https://ai.google/discover/palm2)
+- [Perplexity](https://perplexity.ai)
+- [Replicate](https://replicate.com)
+- [together.ai](https://together.ai)
 
 If you use (or run) an OpenAI-compatible inference service that isn't listed here, please let me know so I can add support. This software is supposed to "just work" in any environment, which it does by recognizing provider API keys. No single provider supports every model, but multiple providers with overlapping model support _can_ provide complete coverage, and prevent downtime when there are service outages at individual providers. Every additional source makes the whole system more resilient.
 
