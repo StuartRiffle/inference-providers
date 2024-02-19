@@ -42,8 +42,8 @@ docker run --restart=always -it -d -p 6006:8080 --name gemini zhu327/gemini-open
 
 - [Replicate](https://replicate.com)
 
-Replicate servers require non-standard header `Authentication: Token <key>` instead of `Authentication: Bearer <key>`, which breaks OpenAI compatibility.
-This is also something a local proxy could fix by rewriting the headers on outgoing requests, but I don't have a turnkey solution for that.
+Replicate servers require non-[standard](https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml) header `Authentication: Token <key>` instead of `Authentication: Bearer <key>`, which breaks OpenAI compatibility.
+This is also something a local proxy could fix by rewriting the headers on outgoing requests.
 
 - [Anthropic](https://anthropic.com)
 
@@ -55,7 +55,7 @@ The scope of this library is to find a working connection without requiring conf
 
 No attempt is made to find the *cheapest* or *fastest* provider of a given model.
 
-First party providers take priority over resellers (like OpenRouter), and they are internally sorted very roughly by the speeds I saw while testing, but of course that changes constantly. Your results could be quite different.
+First party providers take priority over resellers (like OpenRouter), and connections are internally sorted very roughly by the speeds I saw while testing, but of course that changes constantly. Your results could be quite different.
 
 # Usage
 ``` Python
