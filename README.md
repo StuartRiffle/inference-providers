@@ -41,13 +41,11 @@ docker run --restart=always -it -d -p 6006:8080 --name gemini zhu327/gemini-open
 - [Replicate](https://replicate.com)
 
 Replicate servers require non-standard header `Authentication: Token <key>` instead of `Authentication: Bearer <key>`, which breaks OpenAI compatibility.
-This is also something a local proxy could fix by rewriting the headers on outgoing requests.
+This is also something a local proxy could fix by rewriting the headers on outgoing requests, but I don't have a turnkey solution for that.
 
 - [Anthropic](https://anthropic.com)
 
-I don't have an API key to test a direct connection yet, but `claude-2` is available via OpenRouter if you have an `OPENROUTER_API_KEY`. The first-party connection will be used by default once available.
-
-That's kind of the point of this whole layer of abstraction... you specify the model, and let the library find/configure a source.
+I don't have an API key to test a direct connection yet, but `claude-2` is available via OpenRouter if you have an `OPENROUTER_API_KEY`. The first-party connection will be used by default once it is available.
 
 # Limitations
 
@@ -79,7 +77,6 @@ client, name = providers.connect_to_ai()
 
 Connections are tried in the order they appear in `inference_providers.json`, and the first one that works is returned. There is also a flag `choose_randomly=True` that does what it sounds like. If you'd rather sort through the options yourself, `find_model_providers()` will give you a list of all services that are compatible with a given model.
 
-
 # Handling updates
 
 The JSON file bundled with the package will slowly get out of date, as providers and models come and go over time. There are a couple of ways to deal with that:
@@ -101,8 +98,7 @@ You can also use `json_merge` in the constructor to patch user settings on top o
     }
 }
 ```
-Look inside `inference_providers.json` for details.
-
+This is the most robust solution. Look inside `inference_providers.json` for details.
 ``` python
 from inference_providers import ProviderList
 providers = ProviderList(json_merge=open('my_custom_config.json').read())
