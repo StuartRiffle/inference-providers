@@ -6,11 +6,41 @@ Popular models have been given short canonical [names](#canonical-model-names), 
 
 Environment variables contain API keys for one or more of those providers.
 
-These things go together to allow **auto-selection of model sources** at runtime.
+These things go together to allow **auto-selection of model sources** at runtime. The user will be connected to whatever service(s) they happen to subscribe to, and which have the model requested.
 
-<img width="400px" style="padding:20px" src="docs/synergy.jpg">
+<img width="300px" style="padding:20px" src="docs/synergy.jpg" align="right">
 
-The user will be connected to whatever service(s) they happen to subscribe to, without either of you needing to configure things.
+|Provider|Key|
+|----|----|
+|[Anyscale](https://anyscale.com)|`ANYSCALE_API_KEY`|
+|[deepinfra](https://deepinfra.com)|`DEEPINFRA_API_KEY`|
+|[fireworks.ai](https://fireworks.ai)|`FIREWORKS_API_KEY`|
+|[Groq](https://groq.com)|`GROQ_API_KEY`|
+|[Lepton AI](https://www.lepton.ai)|`LEPTON_API_KEY`|
+|[Mistral AI](https://mistral.ai/)|`MISTRAL_API_KEY`|
+|[Octo AI](https://octo.ai/)|`OCTOAI_TOKEN`|
+|[OpenAI](https://openai.com)|`OPENAI_API_KEY`|
+|[OpenRouter AI](https://openrouter.ai)|`OPENROUTER_API_KEY`|
+|[Perplexity](https://perplexity.ai)|`PERPLEXITYAI_API_KEY`|
+|[together.ai](https://together.ai)|`TOGETHERAI_API_KEY`|
+
+### Supported using OpenAI compatibility proxy
+
+- [Gemini](https://deepmind.google) via endpoint `http://localhost:6006/v1`
+
+Google doesn't directly support the OpenAI API, but shims are available like 
+[this one](https://github.com/zhu327/gemini-openai-proxy). 
+If you run a proxy server on port `6006`, it will be automatically recognized as Gemini. The easiest way to do this is Docker:
+```
+docker run --restart=always -it -d -p 6006:8080 --name gemini zhu327/gemini-openai-proxy:latest
+```
+
+### Almost but not quite supported 
+
+- [Replicate](https://replicate.com)
+
+Replicate servers require non-standard header `Authentication: Token <key>` instead of `Authentication: Bearer <key>`, which breaks OpenAI compatibility.
+This is also something a local proxy could fix by editing the headers on outgoing requests.
 
 # Usage
 ``` Python
@@ -20,9 +50,6 @@ providers = ProviderList(auto_update=True)
 client, name = providers.connect_to_model("mixtral-8x7b")
 print(providers.get_response(client, name, "What's your sign?"))
 ```
-Behold, artificial intelligence:
-> I'm a Taurus.
-
 If you are not too picky about exactly which model you use, you can submit a list of models that are known to be "good enough". If there is no source for the first model, it looks for the next, and so on. 
 ``` Python
 client, name = providers.connect_to_first_available_model([
@@ -30,31 +57,44 @@ client, name = providers.connect_to_first_available_model([
 ```
 It's fine to include models from paid subscription services in the list. They will be skipped if the user does not have access, but used opportunistically if keys are found.
 
-
-
 If you are even less picky, `connect_to_ai()` will connect you to the "best" model available, which is determined by a list of popular models in `auto_model_priority`, at the bottom of the JSON file.
-``` Python
+``` python
 client, name = providers.connect_to_ai()
 ```
-And if you don't have even have time for *that*, spin the wheel:
-``` Python
-print(providers.ask_ai("Come here often?"))
-```
-If there are any API keys in the environment at all, you will get an answer back from the void:
 
-> Yeah, I think I might have seen you around.
-
-Connections are tried in the order they appear in `inference-providers.json`, and the first one that works is returned. There is also a flag `choose_randomly=True` that does what it sounds like. If you'd rather sort through the options yourself, `find_model_providers()` will give you a list of all services that are compatible with a given model.
+Connections are tried in the order they appear in `inference_providers.json`, and the first one that works is returned. There is also a flag `choose_randomly=True` that does what it sounds like. If you'd rather sort through the options yourself, `find_model_providers()` will give you a list of all services that are compatible with a given model.
 
 
 # Handling updates
 
 The JSON file bundled with the package will slowly get out of date, as providers and models come and go over time. There are a couple of ways to deal with that:
 
-- setting `auto_update=True` on the `ProviderList` constructor (like the example code) will download and use the latest version of the JSON checked in to GitHub
+- setting `auto_update=True` on the `ProviderList` constructor (like the example code) will download and use the latest version of the JSON checked in to GitHub 
 - you can also maintain your own up-to-date or edited copy, and use it by specifying `json_override` at startup
 - you can fetch the latest JSON with yourself using `ProviderList.get_updated_provider_list()` and do as you will
 
+You can also use `json_merge` in the constructor to patch user settings on top of the embedded file. Use the same schema, but sparse: only include items to merge/override. For example, to support a new model without updating the package:
+
+``` json
+{
+    "providers": {
+        "openai": {
+            "model_names": {        
+                "gpt-5": "gpt-5-instruct-preview"
+            }
+        }
+    }
+}
+```
+Look inside `inference_providers.json` for details.
+
+``` python
+from inference_providers import ProviderList
+providers = ProviderList(json_merge=open('my_custom_config.json').read())
+
+client, name = providers.connect_to_model("gpt-5")
+print(providers.get_response(client, name, "How long do we have?"))
+```
 
 # Notes
 
@@ -63,7 +103,7 @@ The JSON file bundled with the package will slowly get out of date, as providers
 A model is normally considered "working" if we can connect to the server, but the methods also have a `test` option that runs an inference sample to verify the API key is authorized and a valid response comes back. It is disabled by default because the extra check makes initialization slower, but enable it if you can for more reliable connections.
 
 ``` Python
-class ProviderList(verbose=False, json_override=None, auto_update=False)
+class ProviderList(verbose=False, json_override=None, json_merge=None, auto_update=False)
 
     # Get a list of unique model names available
     get_canonical_model_names()
@@ -83,52 +123,25 @@ class ProviderList(verbose=False, json_override=None, auto_update=False)
     # Connect to the "best" model possible given the available API keys
     connect_to_ai(test=True)
 
-    # If you gaze long enough into an abyss, the abyss will gaze back into you
-    ask_ai(question, test=True)
 ```
 
 
 
 
-### Canonical model names
-||||||||
-|-----|-----|-----|-----|-----|-----|-----|
-|gpt-4          ||llama-2-70b           ||gemini-pro    ||falcon-40b|
-|gpt-3.5        ||llama-2-7b            ||palm          ||yi-34b|
-|               |                       ||              ||
-|codellama-70b  ||codellama-python-70b  ||mistral-medium||
-|codellama-34b  ||codellama-python-34b  ||mistral-small ||mixtral-8x7b|
-|phind-34b      ||wizard-python-34b     ||mistral-tiny  ||mistral-7b|
+
+### Canonical model names in use
+||||||
+|-------------|---------------|----------------|---------------|---------------|
+| gpt-3.5     | llama-2-7b    | mistral-7b     | pplx-7b       | falcon-40b    |
+| gpt-4       | llama-2-13b   | mistral-tiny   | pplx-70b      | dolphin-8x7b  |
+| gpt-4-32k   | llama-2-70b   | mixtral-8x7b   | deepseek-34b  | wizard-70b    |
+| gpt-4-turbo | codellama-7b  | mistral-small  | phind-34b     | openchat-7b   |
+| gemini-pro  | codellama-13b | mistral-medium | yi-34b        | openhermes-7b |
+| claude-2    | codellama-34b | mistral-next   | qwen-72b      |               |
+|             | codellama-70b |                |               |               |
+
 
 The "instruct" versions of models will be used if they exist. Failing that, any "chat" versions. The `-instruct` and `-chat` suffixes on model names are left off the canonical names, but the presence of one of them is implied.
 
 **No completion models** are included, only ones you can talk to. 
-
-If you add a model, but it's insane and keeps repeating itself, you might be talking to the base/completion version. Try one of the instruct/chat-specialized variants instead.
-
-### Supported inference providers
-
-- [Anyscale](https://anyscale.com)
-- [deepinfra](https://deepinfra.com)
-- [fireworks.ai](https://fireworks.ai)
-- [Gemini](https://deepmind.google)
-- [Groq](https://groq.com)
-- [Lepton AI](https://www.lepton.ai)
-- [Mistral AI](https://mistral.ai/)
-- [Octo AI](https://octo.ai/)
-- [OpenAI](https://openai.com)
-- [OpenRouter AI](https://openrouter.ai)
-- [PaLM](https://ai.google/discover/palm2)
-- [Perplexity](https://perplexity.ai)
-- [Replicate](https://replicate.com)
-- [together.ai](https://together.ai)
-
-If you use (or run) an OpenAI-compatible inference service that isn't listed here, please let me know so I can add support. This software is supposed to "just work" in any environment, which it does by recognizing provider API keys. No single provider supports every model, but multiple providers with overlapping model support _can_ provide complete coverage, and prevent downtime when there are service outages at individual providers. Every additional source makes the whole system more resilient.
-
-Wasn't there a word for that?
-
-<img width="400px" style="padding:20px" src="docs/synergy-also.jpg">
-
-Damn right.
-
 

@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from inference_providers import ProviderList
@@ -9,14 +10,15 @@ providers = ProviderList(verbose=True, auto_update=False)
 all_connections = providers.find_all_model_providers()
 skipping = True
 for connection in all_connections:
-    id, url, internal_name, key = connection
-    if id == "replicate":
-        print(f"{id} {internal_name}: ", end="", flush=True)
+    id, url, canonical_name, internal_name, key = connection
+    if canonical_name == "gemini-pro":
+        print(f"[{id}] {internal_name}: ", end="", flush=True)
         response = "<<<FAIL>>>"
+        start_time = time.time()
         client = providers.connect_to_model_endpoint(url, key, internal_name, verify=False)
         if client:
-            response = providers.get_response(client, internal_name, "Reply with one word only: the sound a cat makes. No commentary, just the word, then stop. No emoji, no jokes.")
-        print(f"{response}")
+            response = providers.get_response(client, internal_name, "Tell me a story about a dog in 500 words")
+        print(f"{response} ({time.time() - start_time:.3f})")
 
 
 

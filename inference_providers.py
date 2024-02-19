@@ -4,25 +4,34 @@
 import difflib
 from openai import OpenAI
 import os, random, json, requests
+from jsonmerge import Merger
 
 json_update_download_url  = "https://raw.githubusercontent.com/StuartRiffle/inference-providers/main/inference-providers.json"
 common_oia_server_ports   = [1234, 3000, 5000, 7860, 7861, 8000, 8111, 8080, 8888, 9997, 11434, 18888]
 common_key_var_substrings = ["_API", "_KEY", "_SECRET", "_TOKEN", "ACCESSKEY", "SECRETKEY"]
 common_api_key_prefixes   = ["esecret_", "sk-", "pplx-", "r8_", "gsk-"]
+default_system_prompt     = "Just play along."
 
 class ProviderList:
     """A class for managing a list of LLM inference providers."""
-    def __init__(self, verbose=False, json_override=None, auto_update=False):
+    def __init__(self, verbose=False, json_override=None, json_merge=None, auto_update=False):
         self.verbose = verbose
         if auto_update:
             json_override = ProviderList.get_updated_provider_list(verbose=verbose) or json_override
         json_text = json_override
+
         if not json_text:
             root = os.path.dirname(os.path.abspath(__file__))
             default_path = os.path.join(root, "inference_providers.json")
             with open(default_path, "r") as f:
                 json_text = f.read()
+                
         self.config = json.loads(json_text)
+        if json_merge:
+            schema = { "properties": { "providers": { "mergeStrategy": "objectMerge" } } }
+            merger = Merger(schema)
+            self.config = merger.merge(self.config, json.loads(json_merge))
+
         self.provider_info = self.config.get("providers", {})
 
     @staticmethod
@@ -63,22 +72,9 @@ class ProviderList:
         return potential_keys
 
     def detect_local_endpoints(self):
-        # Scan the default ports common proxy servers use
-        port_to_check = set(common_oia_server_ports)
-
-        # Also scrape anything that looks like a port number at the end of a var
-        for key in os.environ:
-            value = os.environ[key]
-            if "port" in key.lower() and value.isdigit():
-                port_to_check.add(int(value))
-                continue
-            colon_index = value.rfind(":")
-            if colon_index != -1 and value[colon_index+1:].isdigit():
-                port = int(value[colon_index+1:])
-                port_to_check.add(port)
-
+        # Scan the default ports that common proxy servers use
         open_ports = []
-        for port in port_to_check:
+        for port in common_oia_server_ports:
             try:
                 response = requests.get(f"http://localhost:{port}")
                 if response.status_code == 200:
@@ -86,46 +82,24 @@ class ProviderList:
             except: pass
         return open_ports
 
-    def fuzzy_match_model_name(self, internal_name, canonical_names):
+    def fuzzy_match_model_name(self, internal_name, names):
         """Find the canonical name that's the closest match to a provider's internal model name"""
-
         # Ignore any "path"-style prefix on the provider's internal model name           
         last_sep = max(internal_name.rfind("/"), internal_name.rfind("\\"))
         if last_sep > -1:
             internal_name = internal_name[last_sep+1:]
 
-        if internal_name == canonical_name:
-            return canonical_name
+        # Ignore anything after a colon
+        first_colon = internal_name.find(":")
+        if first_colon > -1:
+            internal_name = internal_name[:first_colon]
         
         candidates = []
-        for canonical_name in canonical_names:
+        for name in names:
             # Every element in the simplified canonical name must appear *somewhere*
-            elements = canonical_name.split("-")
-            if not all(element in internal_name.lower() for element in elements):
-                continue
-
-            # Parameter count must also match (if present)
-            param_match_failed = False
-            for element in elements:
-                if element.endswith("b") and element[:-1].isdigit:
-                    expected = '-' + element
-                    if not expected in internal_name.lower():
-                        param_match_failed = True
-                        break
-            if param_match_failed:
-                continue
-
-            candidates.append(canonical_name)
-
-        # Prefer canonical names that are a prefix match for the internal name (if any are)
-        if len(candidates) > 1:
-            prefix_matches = []
-            for candidate in candidates:
-                prefix = candidate.split("-")[0]
-                if internal_name.startswith(prefix):
-                    prefix_matches.append(candidate)
-            if len(prefix_matches) > 0:
-                candidates = prefix_matches
+            elements = name.split("-")
+            if all(element in internal_name.lower() for element in elements):
+                candidates.append(name)
 
         if self.verbose:
             if len(candidates) == 0:    status = f'no canonical names match internal model name "{internal_name}"'
@@ -133,15 +107,11 @@ class ProviderList:
             else:                       status = f'fuzzy matching to internal model name "{internal_name}" failed, candidates: {candidates}'
             print(f'[inference-providers] {status}')
 
-        if len(candidates) == 1:
-            return candidates[0]
+        if candidates:
+            candidates = difflib.get_close_matches(internal_name, candidates, n=1, cutoff=0.5)
+
+        return candidates[0] if candidates else None
         
-        if len(candidates) > 1:
-            best_match = difflib.get_close_matches(internal_name, candidates, n=1, cutoff=0.5)
-            if best_match:
-                return best_match[0]
-        
-        return None
     
 
     # Exhaustive search for local port/key/model combinations that talk back
@@ -189,13 +159,10 @@ class ProviderList:
     def find_model_providers(self, canonical_name=None):
         """Find providers that support a given model."""
         candidates = []
-        if canonical_name:
-            targets = [canonical_name]
-        else:
-            targets = self.get_canonical_names_in_use()
-
         for provider_name, info in self.provider_info.items():
+            targets = [canonical_name] if canonical_name else self.get_canonical_names_in_use()
             model_names = info.get("model_names", {})
+            
             for target in targets:
                 if target in model_names.keys():
                     true_name = model_names[target]
@@ -205,9 +172,8 @@ class ProviderList:
                     url       = config.get("endpoint", None)
                     url       = url.replace("$MODEL_NAME", true_name) if url else None
                     api_key   = os.environ.get(key_var, None) if key_var else None
-
                     if api_key and protocol == "openai":
-                        connection = (provider_name, url, true_name, api_key)
+                        connection = (provider_name, url, target, true_name, api_key)
                         candidates.append(connection)
 
         return candidates
@@ -224,21 +190,19 @@ class ProviderList:
                 if not self.get_response(client, internal_name, "Who's your daddy?"):
                     print(f'[inference-providers] WARNING: no response from model "{internal_name}" at "{endpoint}"')
                     return None
-            client.default_headers["Authorization"] = f"Token {api_key}"
             return client
         except Exception as e:
             if self.verbose:
                 print(f'[inference-providers] WARNING: failed to connect to model "{internal_name}" at "{endpoint}"\n{e}')
         return None
 
-    
     def connect_to_model(self, canonical_name, choose_randomly=False, verify=False):
         """Create an OpenAI client for a model using one of the known compatible providers."""
         candidates = self.find_model_providers(canonical_name)
         if choose_randomly:
              random.shuffle(candidates)
         for connection in candidates:
-            _, endpoint, internal_name, api_key = connection
+            _, endpoint, _, internal_name, api_key = connection
             client = self.connect_to_model_endpoint(endpoint, api_key, internal_name, verify=verify)
             if client:
                 return client, internal_name
@@ -265,7 +229,7 @@ class ProviderList:
             response = client.chat.completions.create(
                 model=model_name, 
                 messages=[
-                    {"role": "system", "content": "Just play along"},
+                    {"role": "system", "content": default_system_prompt},
                     {"role": "user",   "content": prompt}
                 ])
             content = response.choices[0].message.content.strip()
@@ -275,9 +239,5 @@ class ProviderList:
                 print(f'[inference-providers] WARNING: exception running inference on model "{model_name}"\n{e}')            
         return None
 
-    def ask_ai(self, question, test=True):
-        """Scream into the void."""
-        client, true_name = self.connect_to_ai(test=test)
-        response = self.get_response(client, true_name, question)
-        return response or "?"
-    
+
+
