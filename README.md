@@ -1,6 +1,7 @@
+
 # Inference providers
 
-Popular models have been given short canonical [names](#canonical-model-names), like `codellama-70b` or `gpt-4`. 
+Popular models have been given short canonical [names](#canonical-model-names), like `codellama-70b` or `gpt-4`. I made this for my own use, so there are lots of gaps and omissions. 
 
 `inference-providers.json` contains a list of known commercial inference [providers](#supported-inference-providers), the models they offer, and their magic internal names.
 
@@ -41,6 +42,20 @@ docker run --restart=always -it -d -p 6006:8080 --name gemini zhu327/gemini-open
 
 Replicate servers require non-standard header `Authentication: Token <key>` instead of `Authentication: Bearer <key>`, which breaks OpenAI compatibility.
 This is also something a local proxy could fix by rewriting the headers on outgoing requests.
+
+- [Anthropic](https://anthropic.com)
+
+I don't have an API key to test a direct connection yet, but `claude-2` is available via OpenRouter if you have an `OPENROUTER_API_KEY`. The first-party connection will be used by default once available.
+
+That's kind of the point of this whole layer of abstraction... you specify the model, and let the library find/configure a source.
+
+### Limitations
+
+The scope of this library is to find a working connection with no configuration, that's all.
+
+No attempt is made to find the *cheapest* or *fastest* provider of a given model.
+
+First party providers take priority over resellers (like OpenRouter), and they are internally sorted very roughly by the speeds I saw while testing, but of course that changes constantly. Your results could be quite different.
 
 # Usage
 ``` Python
