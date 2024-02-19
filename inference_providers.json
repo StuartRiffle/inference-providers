@@ -32,6 +32,21 @@
             }
         },
 
+        "google": { 
+            "name":                     "Gemini",
+            "website":                  "https://deepmind.google",
+            "connection": {         
+                "protocol":             "openai",
+                "endpoint":             "http://localhost:6006/v1",
+                "api_key":              "GEMINI_API_KEY"
+            },  
+            "console":                  "https://ai.google.dev",
+            "model_list":               "https://ai.google.dev/models",   
+            "model_names": {    
+                "gemini-pro":           "models/gemini-pro"
+            }
+        },
+
         "groq": {
             "name":                     "Groq",
             "website":                  "https://groq.com",
@@ -179,21 +194,6 @@
                 "codellama-70b":        "codellama-70b-instruct-fp16",
                 "mistral-7b":           "mistral-7b-instruct-fp16",
                 "mixtral-8x7b":         "mixtral-8x7b-instruct-fp16"
-            }
-        },
-
-        "google": { 
-            "name":                     "Gemini",
-            "website":                  "https://deepmind.google",
-            "connection": {         
-                "protocol":             "openai",
-                "endpoint":             "http://localhost:6006/v1",
-                "api_key":              "GEMINI_API_KEY"
-            },  
-            "console":                  "https://ai.google.dev",
-            "model_list":               "https://ai.google.dev/models",   
-            "model_names": {    
-                "gemini-pro":           "models/gemini-pro"
             }
         },
 

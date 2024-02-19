@@ -1,7 +1,9 @@
 
 # Inference providers
 
-Popular models have been given short canonical [names](#canonical-model-names), like `codellama-70b` or `gpt-4`. I made this for my own use, so there are lots of gaps and omissions. 
+Disclaimer: I made this for my own use, so there are **lots** of gaps and omissions, which I hope can be filled over time.
+
+Popular models have been given short canonical [names](#canonical-model-names), like `codellama-70b` or `gpt-4`. 
 
 `inference-providers.json` contains a list of known commercial inference [providers](#supported-inference-providers), the models they offer, and their magic internal names.
 
@@ -49,7 +51,7 @@ I don't have an API key to test a direct connection yet, but `claude-2` is avail
 
 # Limitations
 
-The scope of this library is to find a working connection with no configuration, that's all.
+The scope of this library is to find a working connection without requiring configuration, that's all.
 
 No attempt is made to find the *cheapest* or *fastest* provider of a given model.
 
