@@ -11,7 +11,7 @@ Environment variables contain API keys for one or more of those providers.
 
 These things go together to allow **auto-selection of model sources** at runtime. The user will be connected to whatever service(s) they happen to subscribe to, and which have the model requested.
 
-<img width="300px" style="padding:20px" src="docs/synergy.jpg" align="right">
+<img width="400px" style="padding:20px" src="docs/synergy.jpg" align="right">
 
 |Provider|Key|
 |----|----|
