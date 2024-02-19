@@ -40,7 +40,7 @@ docker run --restart=always -it -d -p 6006:8080 --name gemini zhu327/gemini-open
 - [Replicate](https://replicate.com)
 
 Replicate servers require non-standard header `Authentication: Token <key>` instead of `Authentication: Bearer <key>`, which breaks OpenAI compatibility.
-This is also something a local proxy could fix by editing the headers on outgoing requests.
+This is also something a local proxy could fix by rewriting the headers on outgoing requests.
 
 # Usage
 ``` Python
@@ -108,6 +108,9 @@ class ProviderList(verbose=False, json_override=None, json_merge=None, auto_upda
     # Get a list of unique model names available
     get_canonical_model_names()
 
+    # Scan ports on the local machine for servers/proxies
+    detect_local_connections(self, refresh_cache=False)
+
     # Get a list of provider connection options for a model
     find_model_providers(canonical_name)
 
@@ -120,16 +123,11 @@ class ProviderList(verbose=False, json_override=None, json_merge=None, auto_upda
     # Connect to a model from a (prioritized) list of acceptable ones
     connect_to_first_available_model(model_names, test=False)
 
-    # Connect to the "best" model possible given the available API keys
+    # Connect to the "best" model available given the user's API keys
     connect_to_ai(test=True)
-
 ```
 
-
-
-
-
-### Canonical model names in use
+### Canonical model names recognized
 ||||||
 |-------------|---------------|----------------|---------------|---------------|
 | gpt-3.5     | llama-2-7b    | mistral-7b     | pplx-7b       | falcon-40b    |
@@ -140,8 +138,7 @@ class ProviderList(verbose=False, json_override=None, json_merge=None, auto_upda
 | claude-2    | codellama-34b | mistral-next   | qwen-72b      |               |
 |             | codellama-70b |                |               |               |
 
+This list is arbitrary and basically represents the models I happen to have tested. 
 
-The "instruct" versions of models will be used if they exist. Failing that, any "chat" versions. The `-instruct` and `-chat` suffixes on model names are left off the canonical names, but the presence of one of them is implied.
-
-**No completion models** are included, only ones you can talk to. 
+The "instruct" versions of models will be used if they exist. Failing that, any "chat" versions. The `-instruct` and `-chat` suffixes on model names are left off the canonical names, but the presence of one of them is always implied. **No base/completion models** are specified, only ones you can talk to. 
 
