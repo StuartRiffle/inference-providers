@@ -49,7 +49,7 @@ I don't have an API key to test a direct connection yet, but `claude-2` is avail
 
 That's kind of the point of this whole layer of abstraction... you specify the model, and let the library find/configure a source.
 
-### Limitations
+# Limitations
 
 The scope of this library is to find a working connection with no configuration, that's all.
 
