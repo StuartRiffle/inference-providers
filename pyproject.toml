@@ -18,8 +18,5 @@ classifiers = [
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
-
-
-
 [project.urls]
 Homepage = "https://github.com/stuartriffle/inference-providers"

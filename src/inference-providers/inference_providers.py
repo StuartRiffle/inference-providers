@@ -112,8 +112,6 @@ class ProviderList:
             candidates = difflib.get_close_matches(internal_name, candidates, n=1, cutoff=0.5)
 
         return candidates[0] if candidates else None
-        
-    
 
     # Exhaustive search for local port/key/model combinations that talk back
     #
