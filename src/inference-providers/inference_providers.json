@@ -95,8 +95,9 @@
             "console":                  "https://api.together.xyz/settings",
             "model_list":               "https://docs.together.ai/docs/inference-models",
             "model_names": {
-                "wizard-70b":           "WizardLM/WizardLM-70B-V1.0",
                 "falcon-40b":           "togethercomputer/falcon-40b-instruct",
+                "codellama-7b":         "togethercomputer/CodeLlama-7b-Instruct",
+                "codellama-13b":        "togethercomputer/CodeLlama-13b-Instruct",
                 "codellama-34b":        "togethercomputer/CodeLlama-34b-Instruct",
                 "deepseek-34b":         "deepseek-ai/deepseek-coder-33b-instruct",
                 "llama-2-70b":          "togethercomputer/llama-2-70b-chat",
@@ -209,12 +210,8 @@
             "model_list":               "https://docs.mistral.ai/platform/endpoints",
             "model_names": {    
                 "mistral-tiny":         "mistral-tiny",
-                "mistral-7b":           "mistral-tiny",
                 "mistral-small":        "mistral-small",
-                "mixtral-8x7b":         "mistral-small",
-                "mistral-medium":       "mistral-medium",
-                "mistral-next":         "mistral-next",
-                "mistral":              "mistral-medium"
+                "mistral-medium":       "mistral-medium"
             }
         },
 
@@ -285,8 +282,7 @@
     },
 
     "broken": {
-        "replicate": {
-            "_":                        "The endpoint uses non-standard header 'Authentication: Token' instead of Bearer",
+        "replicate": { "_": "The endpoint uses non-standard header 'Authentication: Token' instead of Bearer",
             
             "name":                     "Replicate",
             "website":                  "https://replicate.com",

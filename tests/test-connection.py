@@ -11,13 +11,13 @@ all_connections = providers.find_all_model_providers()
 skipping = True
 for connection in all_connections:
     id, url, canonical_name, internal_name, key = connection
-    if canonical_name == "gemini-pro":
-        print(f"[{id}] {internal_name}: ", end="", flush=True)
+    if True:#canonical_name == "gemini-pro":
+        print(f"[{id}]  {internal_name}:  ", end="", flush=True)
         response = "<<<FAIL>>>"
         start_time = time.time()
         client = providers.connect_to_model_endpoint(url, key, internal_name, verify=False)
         if client:
-            response = providers.get_response(client, internal_name, "Tell me a story about a dog in 500 words")
+            response = providers.get_response(client, internal_name, "Knock knock. (You say 'who's there?')")
         print(f"{response} ({time.time() - start_time:.3f})")
 
 

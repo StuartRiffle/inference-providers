@@ -33,6 +33,7 @@ class ProviderList:
             self.config = merger.merge(self.config, json.loads(json_merge))
 
         self.provider_info = self.config.get("providers", {})
+        self.cached_clients = {}
 
     @staticmethod
     def get_updated_provider_list(verbose=False):
@@ -182,10 +183,15 @@ class ProviderList:
         """Find all providers that support any model."""
         return self.find_model_providers(None)
 
-    def connect_to_model_endpoint(self, endpoint, api_key, internal_name, verify=False):
+    def connect_to_model_endpoint(self, endpoint, api_key, internal_name, verify=False, allow_cached=True):
         """Create an OpenAI client for a model using a specific provider."""
+        ident = api_key + (endpoint or "")
         try:
-            client = OpenAI(api_key=api_key, base_url=endpoint)
+            if allow_cached and ident in self.cached_clients:
+                client = self.cached_clients[ident]
+            else:
+                client = OpenAI(api_key=api_key, base_url=endpoint)
+                self.cached_clients[ident] = client
             if verify:
                 if not self.get_response(client, internal_name, "Who's your daddy?"):
                     print(f'[inference-providers] WARNING: no response from model "{internal_name}" at "{endpoint}"')

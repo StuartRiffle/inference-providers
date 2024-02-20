@@ -1,8 +1,8 @@
 [project]
 name = "inference-providers"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
-  { name="Stuart Riffle", email="stuart@rifflemail.com" },
+  { name = "Stuart Riffle", email = "stuart@rifflemail.com" },
 ]
 description = "A collection of commercial LLM inference providers and their available models"
 readme = "README.md"
@@ -13,6 +13,13 @@ classifiers = [
     "Operating System :: OS Independent",
     "Development Status :: 4 - Beta",
 ]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+
 
 [project.urls]
 Homepage = "https://github.com/stuartriffle/inference-providers"

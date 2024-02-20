@@ -5,4 +5,5 @@ $RECYCLE.BIN/
 .idea/
 .venv/
 .vscode/
+dist/
 **/__pycache__/

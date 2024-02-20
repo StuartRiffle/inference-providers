@@ -1,0 +1,12 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+src/inference-providers/__init__.py
+src/inference-providers/inference_providers.json
+src/inference-providers/inference_providers.py
+src/inference_providers.egg-info/PKG-INFO
+src/inference_providers.egg-info/SOURCES.txt
+src/inference_providers.egg-info/dependency_links.txt
+src/inference_providers.egg-info/top_level.txt
+tests/test-connection.py
