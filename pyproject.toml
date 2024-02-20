@@ -1,6 +1,6 @@
 [project]
 name = "inference-providers"
-version = "0.1.0"
+version = "0.2.1"
 authors = [
   { name = "Stuart Riffle", email = "stuart@rifflemail.com" },
 ]
@@ -15,7 +15,7 @@ classifiers = [
 ]
 
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=42", "wheel", "natsort", "openai", "requests", "jsonmerge"]
 build-backend = "setuptools.build_meta"
 
 [project.urls]
