@@ -15,6 +15,7 @@ These things go together to allow **auto-selection of model sources** at runtime
 
 |Provider|Key|
 |----|----|
+|[Anthropic](https://anthropic.com)|`ANTHROPIC_API_KEY`|
 |[Anyscale](https://anyscale.com)|`ANYSCALE_API_KEY`|
 |[deepinfra](https://deepinfra.com)|`DEEPINFRA_API_KEY`|
 |[fireworks.ai](https://fireworks.ai)|`FIREWORKS_API_KEY`|
@@ -44,10 +45,6 @@ docker run --restart=always -it -d -p 6006:8080 --name gemini zhu327/gemini-open
 
 Replicate servers require non-[standard](https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml) header `Authentication: Token <key>` instead of `Authentication: Bearer <key>`, which breaks OpenAI compatibility.
 This is also something a local proxy could fix by rewriting the headers on outgoing requests.
-
-- [Anthropic](https://anthropic.com)
-
-I don't have an API key to test a direct connection yet, but `claude-2` is available via OpenRouter if you have an `OPENROUTER_API_KEY`. The first-party connection will be used by default once it is available.
 
 # Limitations
 
@@ -148,8 +145,8 @@ class ProviderList(verbose=False, json_override=None, json_merge=None, auto_upda
 | gpt-4-32k   | llama-2-70b   | mixtral-8x7b   | deepseek-34b  | wizard-70b    |
 | gpt-4-turbo | codellama-7b  | mistral-small  | phind-34b     | openchat-7b   |
 | gemini-pro  | codellama-13b | mistral-medium | yi-34b        | openhermes-7b |
-| claude-2    | codellama-34b | mistral-next   | qwen-72b      |               |
-|             | codellama-70b |                |               |               |
+| claude-2.1  | codellama-34b | mistral-next   | qwen-72b      |               |
+| claude-2    | codellama-70b |                |               |               |
 
 This list is arbitrary and basically represents the models I happen to have tested. 
 

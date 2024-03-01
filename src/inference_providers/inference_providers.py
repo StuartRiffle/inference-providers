@@ -6,11 +6,11 @@ from openai import OpenAI
 import os, random, json, requests
 from jsonmerge import Merger
 
-json_update_download_url  = "https://raw.githubusercontent.com/StuartRiffle/inference-providers/main/inference-providers.json"
+json_update_download_url  = "https://raw.githubusercontent.com/StuartRiffle/inference-providers/main/src/inference_providers/inference_providers.json"
 common_oia_server_ports   = [1234, 3000, 5000, 7860, 7861, 8000, 8111, 8080, 8888, 9997, 11434, 18888]
 common_key_var_substrings = ["_API", "_KEY", "_SECRET", "_TOKEN", "ACCESSKEY", "SECRETKEY"]
 common_api_key_prefixes   = ["esecret_", "sk-", "pplx-", "r8_", "gsk-"]
-default_system_prompt     = "Just play along."
+default_system_prompt     = "Just play along"
 
 class ProviderList:
     """A class for managing a list of LLM inference providers."""

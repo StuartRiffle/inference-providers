@@ -12,7 +12,7 @@ all_connections = providers.find_all_model_providers()
 skipping = True
 for connection in all_connections:
     id, url, canonical_name, internal_name, key = connection
-    if True:#canonical_name == "gemini-pro":
+    if "nthrop" in id:#True:#canonical_name == "gemini-pro":
         print(f"[{id}]  {internal_name}:  ", end="", flush=True)
         response = "<<<FAIL>>>"
         start_time = time.time()
@@ -56,4 +56,6 @@ print(response)
 
 response = providers.ask_ai("Hey, where are you going?")
 print(response)
+
+
 

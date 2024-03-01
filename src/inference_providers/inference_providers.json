@@ -47,22 +47,6 @@
             }
         },
 
-        "groq": {
-            "name":                     "Groq",
-            "website":                  "https://groq.com",
-            "connection": {         
-                "protocol":             "openai",
-                "endpoint":             "https://api.groq.com/openai/v1",
-                "api_key":              "GROQ_API_KEY"
-            },  
-            "console":                  "https://groq.com/",
-            "model_list":               "https://groq.com/",
-            "model_names": {
-                "llama-2-70b":          "llama2-70b-4096",
-                "mixtral-8x7b":         "mixtral-8x7b-32768"
-            }
-        },
-
         "anthropic": {
             "name":                     "Anthropic",
             "website":                  "https://anthropic.com",
@@ -77,6 +61,22 @@
                 "claude-2":             "claude-2.1",
                 "claude-2.1":           "claude-2.1",
                 "claude-2.0":           "claude-2.0"
+            }
+        },
+
+        "groq": {
+            "name":                     "Groq",
+            "website":                  "https://groq.com",
+            "connection": {         
+                "protocol":             "openai",
+                "endpoint":             "https://api.groq.com/openai/v1",
+                "api_key":              "GROQ_API_KEY"
+            },  
+            "console":                  "https://groq.com/",
+            "model_list":               "https://groq.com/",
+            "model_names": {
+                "llama-2-70b":          "llama2-70b-4096",
+                "mixtral-8x7b":         "mixtral-8x7b-32768"
             }
         },
 
@@ -332,9 +332,10 @@
     "auto_model_priority": [
         "gpt-4",
         "gemini-pro",
+        "claude-2.1",
+        "claude-2.0",
         "mistral-medium",
         "qwen-72b",
-        "claude-2",
         "dolphin-8x7b",
         "mixtral-8x7b",
         "wizard-70b",
