@@ -51,7 +51,7 @@
             "name":                     "Anthropic",
             "website":                  "https://anthropic.com",
             "connection": {         
-                "protocol":             "openai",
+                "protocol":             "anthropic",
                 "endpoint":             "https://api.anthropic.com/v1",
                 "api_key":              "ANTHROPIC_API_KEY"
             },  
