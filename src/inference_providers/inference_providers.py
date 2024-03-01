@@ -188,7 +188,10 @@ class ProviderList:
             if allow_cached and ident in self.cached_clients:
                 client = self.cached_clients[ident]
             else:
-                client = OpenAI(api_key=api_key, base_url=endpoint)
+                if endpoint:
+                    client = OpenAI(api_key=api_key, base_url=endpoint)
+                else:
+                    client = OpenAI(api_key=api_key)
                 self.cached_clients[ident] = client
             if verify:
                 if not self.get_response(client, internal_name, "Who's your daddy?"):
@@ -242,6 +245,3 @@ class ProviderList:
             if self.verbose:
                 print(f'[inference-providers] WARNING: exception running inference on model "{model_name}"\n{e}')            
         return None
-
-
-

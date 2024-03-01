@@ -1,9 +1,10 @@
 import sys
 import os
 import time
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from inference_providers import ProviderList
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from inference_providers.inference_providers import ProviderList
 providers = ProviderList(verbose=True, auto_update=False)
 
 
@@ -17,7 +18,7 @@ for connection in all_connections:
         start_time = time.time()
         client = providers.connect_to_model_endpoint(url, key, internal_name, verify=False)
         if client:
-            response = providers.get_response(client, internal_name, "Knock knock. (You say 'who's there?')")
+            response = providers.get_response(client, internal_name, "Ten words or less. Smack it.")
         print(f"{response} ({time.time() - start_time:.3f})")
 
 

@@ -63,6 +63,23 @@
             }
         },
 
+        "anthropic": {
+            "name":                     "Anthropic",
+            "website":                  "https://anthropic.com",
+            "connection": {         
+                "protocol":             "openai",
+                "endpoint":             "https://api.anthropic.com/v1",
+                "api_key":              "ANTHROPIC_API_KEY"
+            },  
+            "console":                  "https://console.anthropic.com/workbench",
+            "model_list":               "https://docs.anthropic.com/claude/reference/models",
+            "model_names": {
+                "claude-2":             "claude-2.1",
+                "claude-2.1":           "claude-2.1",
+                "claude-2.0":           "claude-2.0"
+            }
+        },
+
         "perplexity": { 
             "name":                     "Perplexity",
             "website":                  "https://perplexity.ai",
