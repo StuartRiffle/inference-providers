@@ -129,28 +129,32 @@ class ProviderList:
             canonical_names = self.get_canonical_names_in_use()
             self.local_connections = {}
 
-            local_connection_info = {
-                "name": "localhost",
-                "website": "",
-                "connection": {
-                    "protocol": "openai",
-                    "endpoint": "http://localhost:$PORT",
-                    "api_key": "$API_KEY"
-                },
-                "model_names": {}
-            }
-
             for port in ports:
                 for key in keys:
                     try:
                         url = f"http://localhost:{port}"
                         client = OpenAI(api_key=key, base_url=url)
+
+                        local_name = f"localhost-{port}"
+                        local_connection_info = self.provider_info.get(local_name, {})
+                        local_connection_info["name"] = local_name
+                        local_connection_info["model_names"] = {}
+                        local_connection_info["connection"] = {
+                            "protocol": "openai",
+                            "endpoint": url,
+                            "api_key": key
+                        }
                         for model in client.models.list():
                             model_name = model.get("name", None)
                             canonical_name_guess = self.fuzzy_match_model_name(model_name, canonical_names)
                             if canonical_name_guess:
                                 if self.get_response(client, model_name, "Got your ears on, good buddy?"):
                                     self.local_connections[canonical_name_guess] = ("openai", url, model_name, key)
+                                    local_connection_info["model_names"][canonical_name_guess] = model_name
+
+                        if local_connection_info["model_names"]:
+                            self.provider_info[local_name] = local_connection_info
+
                     except: pass
             
         return self.local_connections

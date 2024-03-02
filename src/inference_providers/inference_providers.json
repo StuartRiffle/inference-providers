@@ -28,7 +28,9 @@
             "model_list":               "https://platform.openai.com/docs/models",  
             "model_names": {        
                 "gpt-3.5":              "gpt-3.5-turbo",
-                "gpt-4":                "gpt-4"
+                "gpt-4":                "gpt-4",
+                "gpt-4-32k":            "gpt-4-32k",
+                "gpt-4-turbo":          "gpt-4-turbo-preview"
             }
         },
 
@@ -112,13 +114,11 @@
             "console":                  "https://api.together.xyz/settings",
             "model_list":               "https://docs.together.ai/docs/inference-models",
             "model_names": {
-                "falcon-40b":           "togethercomputer/falcon-40b-instruct",
                 "codellama-7b":         "togethercomputer/CodeLlama-7b-Instruct",
                 "codellama-13b":        "togethercomputer/CodeLlama-13b-Instruct",
                 "codellama-34b":        "togethercomputer/CodeLlama-34b-Instruct",
                 "deepseek-34b":         "deepseek-ai/deepseek-coder-33b-instruct",
                 "llama-2-70b":          "togethercomputer/llama-2-70b-chat",
-                "llama-2-7b":           "togethercomputer/Llama-2-7B-32K-Instruct",
                 "mistral-7b":           "mistralai/Mistral-7B-Instruct-v0.2",
                 "mixtral-8x7b":         "mistralai/Mixtral-8x7B-Instruct-v0.1",
                 "openchat-7b":          "openchat/openchat-3.5-1210",
@@ -165,6 +165,7 @@
             "model_list":               "https://www.lepton.ai/references/llm_models#model-list",
             "model_names": {    
                 "llama-2-7b":           "llama2-7b",
+                "llama-2-13b":          "llama2-13b",
                 "llama-2-70b":          "llama2-70b",
                 "mixtral-8x7b":         "mixtral-8x7b"
             }
@@ -181,6 +182,7 @@
             "console":                  "https://deepinfra.com/dash",
             "model_list":               "https://deepinfra.com/models",
             "model_names": {    
+                "gemma-7b":             "google/gemma-7b-it",
                 "codellama-34b":        "codellama/CodeLlama-34b-Instruct-hf",
                 "codellama-70b":        "codellama/CodeLlama-70b-Instruct-hf",
                 "phind-34b":            "Phind/Phind-CodeLlama-34B-v2",
@@ -228,7 +230,8 @@
             "model_names": {    
                 "mistral-tiny":         "mistral-tiny",
                 "mistral-small":        "mistral-small",
-                "mistral-medium":       "mistral-medium"
+                "mistral-medium":       "mistral-medium",
+                "mistral-large":        "mistral-large"
             }
         },
 
@@ -243,6 +246,7 @@
             "console":                  "https://app.endpoints.anyscale.com/console",
             "model_list":               "https://docs.endpoints.anyscale.com/category/supported-models",
             "model_names": {
+                "gemma-7b":             "google/gemma-7b-it",
                 "codellama-34b":        "codellama/CodeLlama-34b-Instruct-hf",
                 "codellama-70b":        "codellama/CodeLlama-70b-Instruct-hf",
                 "llama-2-7b":           "meta-llama/Llama-2-7b-chat-hf",
@@ -263,6 +267,7 @@
             "console":                  "https://openrouter.ai/account",
             "model_list":               "https://openrouter.ai/models",
             "model_names": {    
+                "claude-2.1":           "anthropic/claude-2.1",
                 "claude-2":             "anthropic/claude-2",
                 "codellama-34b":        "meta-llama/codellama-34b-instruct",
                 "codellama-70b":        "codellama/codellama-70b-instruct",
@@ -273,13 +278,14 @@
                 "gpt-4-32k":            "openai/gpt-4-32k",
                 "gpt-4-turbo":          "openai/gpt-4-turbo-preview",
                 "gpt-4":                "openai/gpt-4",
+                "llama-2-13b":          "meta-llama/llama-2-13b-chat",
                 "llama-2-70b":          "meta-llama/llama-2-70b-chat",
-                "mistral-7b":           "mistralai/mistral-7b-instruct",
-                "mistral-medium":       "mistralai/mistral-small", 
+                "mistral-large":        "mistralai/mistral-large", 
+                "mistral-medium":       "mistralai/mistral-medium", 
                 "mistral-small":        "mistralai/mistral-small", 
                 "mistral-tiny":         "mistralai/mistral-tiny", 
                 "mixtral-8x7b":         "mistralai/mixtral-8x7b-instruct",
-                "openhermes-7b":        "teknium/openhermes-2.5-mistral-7b",
+                "openchat-3.5":         "openchat/openchat-7b",
                 "phind-34b":            "phind/phind-codellama-34b",
                 "pplx-70b":             "perplexity/pplx-70b-online",
                 "pplx-7b":              "perplexity/pplx-7b-online",

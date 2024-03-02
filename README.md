@@ -48,7 +48,7 @@ This is also something a local proxy could fix by rewriting the headers on outgo
 
 # Limitations
 
-The scope of this library is to find a working connection without requiring configuration, that's all.
+The scope of this library is to find a working connection without fussing with configuration, that's all.
 
 No attempt is made to find the *cheapest* or *fastest* provider of a given model.
 
@@ -62,12 +62,12 @@ providers = ProviderList(auto_update=True)
 client, name = providers.connect_to_model("mixtral-8x7b")
 print(providers.get_response(client, name, "What's your sign?"))
 ```
-If you are not too picky about exactly which model you use, you can submit a list of models that are known to be "good enough". If there is no source for the first model, it looks for the next, and so on. 
+If you are not picky about exactly which model you use, you can submit a list of models that are known to be "good enough". If there is no source for the first model, it looks for the next, and so on. 
 ``` Python
 client, name = providers.connect_to_first_available_model([
     "mistral-7b", "llama-2-7b", "gpt-3.5", "gemini-nano"])
 ```
-It's fine to include models from paid subscription services in the list. They will be skipped if the user does not have access, but used opportunistically if keys are found.
+It's fine to include models from paid subscription services in the list. They will be skipped if the user does not have access, but used opportunistically if keys for them are found.
 
 If you are even less picky, `connect_to_ai()` will connect you to the "best" model available, which is determined by a list of popular models in `auto_model_priority`, at the bottom of the JSON file.
 ``` python
@@ -81,10 +81,8 @@ Connections are tried in the order they appear in `inference_providers.json`, an
 The JSON file bundled with the package will slowly get out of date, as providers and models come and go over time. There are a couple of ways to deal with that:
 
 - setting `auto_update=True` on the `ProviderList` constructor (like the example code) will download and use the latest version of the JSON checked in to GitHub 
-- you can also maintain your own up-to-date or edited copy, and use it by specifying `json_override` at startup
-- you can fetch the latest JSON with yourself using `ProviderList.get_updated_provider_list()` and do as you will
-
-You can also use `json_merge` in the constructor to patch user settings on top of the embedded file. Use the same schema, but sparse: only include items to merge/override. For example, to support a new model without updating the package:
+- you can also maintain your own up-to-date or edited copy, and use it by specifying `json_override` at startup (fetch the latest JSON with `ProviderList.get_updated_provider_list()` and do as you will)
+- You can also use `json_merge` in the constructor to patch user settings on top of the embedded file. Use the same schema, but sparse: only include items to merge/override. For example, to support a new model without updating the package:
 
 ``` json
 {
@@ -137,18 +135,107 @@ class ProviderList(verbose=False, json_override=None, json_merge=None, auto_upda
     connect_to_ai(test=True)
 ```
 
-### Canonical model names recognized
-||||||
-|-------------|---------------|----------------|---------------|---------------|
-| gpt-3.5     | llama-2-7b    | mistral-7b     | pplx-7b       | falcon-40b    |
-| gpt-4       | llama-2-13b   | mistral-tiny   | pplx-70b      | dolphin-8x7b  |
-| gpt-4-32k   | llama-2-70b   | mixtral-8x7b   | deepseek-34b  | wizard-70b    |
-| gpt-4-turbo | codellama-7b  | mistral-small  | phind-34b     | openchat-7b   |
-| gemini-pro  | codellama-13b | mistral-medium | yi-34b        | openhermes-7b |
-| claude-2.1  | codellama-34b | mistral-next   | qwen-72b      |               |
-| claude-2    | codellama-70b |                |               |               |
+# Connection test
 
-This list is arbitrary and basically represents the models I happen to have tested. 
+This list below is arbitrary and just represents the models I happen to have tested. No science has been performed here.
 
-The "instruct" versions of models will be used if they exist. Failing that, any "chat" versions. The `-instruct` and `-chat` suffixes on model names are left off the canonical names, but the presence of one of them is always implied. **No base/completion models** are specified, only ones you can talk to. 
+The "instruct" versions of all models are used if they exist. Failing that, any "chat" versions. The `-instruct` and `-chat` suffixes on model names are left off the canonical names, but the presence of one of them is always implied. **No base/completion models** are used, only ones you can talk to. 
+
+## What's the coolest name you can think of for...
+||||||...a new party drug?|...a starfighter?|...an AI tech startup?|
+|----|----|----|----|----|----|----|----|
+| **claude-2** | openrouter | `2.76` | `2.64` | `1.82` | *Stardust Euphoria* * | Blackbird | Anthropic |
+| **claude-2.1** | openrouter | `2.51` | `2.53` | `2.16` | *Cosmic Harmony* * | Blackbird | Anthropic |
+| **codellama-13b** | together | `0.27` | `0.32` | `3.19` | Glowstick | Spectrum Strike | NexusAI |
+|  | octo | `1.05` | `1.52` | `0.73` | Kool-Aid Killer | *Pulsar Phantom* * | Intellexia |
+| **codellama-34b** | perplexity | `1.44` | `0.18` | `0.16` | *Stardust Eclipse* * | The Starblade | Nexus |
+|  | together | `2.82` | `0.34` | `0.28` | *Galaxy Bliss* * | The Starblade | AI-Mind |
+|  | fireworks | `0.94` | `0.31` | `0.27` | *SparkShimmer* * | The Crimson Talon | SkyNet |
+|  | deepinfra | `0.59` | `0.34` | `0.37` | DDP-25 | Nova Starblaze | ApexBots |
+|  | octo | `0.61` | `0.39` | `0.31` | Kool-Aid | The Slayerator 3000 | Nervana |
+|  | anyscale | `1.45` | `1.36` | `1.23` | EuphoricEnvy | The X-Wing | AILpha |
+|  | openrouter | `5.15` | `1.38` | `0.81` | *Starstruck Euphoria* * | *Apex Leviathan* * | AISpark |
+| **codellama-70b** | perplexity | `2.13` | `0.59` | `0.58` | *GalaxyGlow* * | 🚀🌠🔥 "The Phoenix" 🔥🌠🚀 | 🤖💻🚀 AI-X �💻🤖  |
+|  | fireworks | `6.02` | `5.82` | `5.89` | *StarDust Euphoria* * | *Starfire Phantom.* * | *NeuroNexus* * |
+|  | deepinfra | `2.57` | `0.64` | `0.73` | *Starlight Elixir* * | 🚀 X-Wing 🚀 | *NeuraSynth* * |
+|  | octo | `1.95` | `0.32` | `4.33` | *Stardust Vibe* * | 😊 | *NeuroPulse Innovations* * |
+|  | anyscale | `2.09` | `1.83` | `1.08` | *Stellar Vibe* * | 🚀Dragon's Blaze🔥 | 🚀 RavenAI 🤖 |
+|  | openrouter | `1.41` | `1.25` | `5.32` | 🎉 BLAST! 🎊 | 🚀✨ Phoenix Starblade 🚀✨ | *NeuraSynth* * |
+| **codellama-7b** | together | `0.67` | `0.20` | `1.05` | *Stardust Euphoria* * | Zeta-7 | Zenith |
+|  | octo | `0.59` | `0.28` | `0.29` | Wreckage | Razorback | MindMeld |
+| **deepseek-34b** | together | `1.57` | `2.01` | `0.43` | *Andromeda Bliss* * | *Phoenix Nebula Striker* * | AI-Venture |
+| **dolphin-8x7b** | deepinfra | `0.54` | `0.26` | `0.29` | Vaporwave | Seraphim | Geistblaze |
+|  | openrouter | `1.09` | `1.07` | `0.65` | Nebulust | Îskaldur | Cybernight |
+| **gemini-pro** | google | `2.54` | `8.94` | `1.57` | Euphoric | Starfire | LuminoAI |
+|  | openrouter | `1.14` | `0.93` | `0.87` |  | Astral Ascender | Nebula |
+| **gemma-7b** | deepinfra | `0.91` | `0.67` | `0.82` | *Stellar Nebula* * | *Quantum Marauder* * | *Nexonic Intelligence* * |
+|  | anyscale | `2.35` | `1.15` | `1.02` | *Galaxy Dust* * | *Galaxy Phantom* * | *NeuroVerge* * |
+| **goliath-120b** | openrouter | `4.21` | `8.81` | `2.53` | Jameson | Interstellar Striker |  |
+| **gpt-3.5** | openai | `0.32` | `0.53` | `0.91` | Glitterwave | Vortex Striker | InnovateIQ |
+|  | openrouter | `1.23` | `1.12` | `1.41` | Lunar Bliss | Shadowstorm MK-IV | Quantum Minds AI Solutions |
+| **gpt-4** | openai | `0.77` | `0.88` | `0.40` | Euphoria Nexus | Eclipse Marauder | Quantum Cortex |
+|  | openrouter | `0.92` | `1.35` | `1.33` | Galactic Bliss | Solar Phantom | Quantum Mindspark |
+| **gpt-4-32k** | openrouter | `1.19` | `1.27` | `1.71` | Starlight Bliss | Quantum Phantom | Neurafire Innovations |
+| **gpt-4-turbo** | openai | `0.72` | `0.59` | `0.59` | Quantix | Starblade Phoenix | NeuraForge |
+|  | openrouter | `1.02` | `2.45` | `2.55` | Quantix | Nebula Phantom | CerebroTech |
+| **llama-2-13b** | lepton | `1.11` | `0.59` | `0.56` | *Astral Stardust* * | *Oblivion Sparrow* * | *NeuroPulse Innovations* * |
+|  | octo | `2.24` | `0.63` | `0.54` | *Starblaze* * | *Inferno Nebula Raider* * | *IntelliVortex* * |
+|  | openrouter | `2.90` | `1.59` | `1.20` | *Stardust Mirage* * | *Galaxy Phantom* * | *Quantum Nexus* * |
+| **llama-2-70b** | groq | `0.93` | `0.20` | `0.16` | *Elysium Bliss* * | NovaStorm | Neur0Sphere |
+|  | perplexity | `2.11` | `0.23` | `0.35` | *Starblaze* * | NovaStorm | Neurorapture |
+|  | together | `1.36` | `0.29` | `0.34` | *StellarQuantum* * | NovaStorm | Neurora |
+|  | fireworks | `1.03` | `0.24` | `0.24` | *Galaxy Burst* * | NovaStrike | NeuralSky |
+|  | lepton | `3.85` | `0.56` | `0.50` | *Infinity Bliss* * | NovaStorm | Neurora |
+|  | deepinfra | `1.74` | `0.48` | `0.51` | *GalaxyDust* * | NovaStrike | NeuralSky |
+|  | octo | `4.37` | `0.32` | `0.35` | *Galaxy Glimmer* * | NovaStorm | NeuralSky |
+|  | anyscale | `2.33` | `1.34` | `1.70` | *Stardust Velocity* * | NovaStorm | NeuralSky |
+|  | openrouter | `5.05` | `1.07` | `0.92` | *Stardust Eclipse* * | SilverStorm | Neurora |
+| **llama-2-7b** | fireworks | `1.08` | `0.29` | `0.25` | *Starglow* * | Nova Starblade | NeuralSphere |
+|  | lepton | `2.25` | `0.37` | `0.50` | *Astral Euphoria* * | Nebula Strike | *Neuronimbus Nova* * |
+|  | deepinfra | `1.64` | `0.45` | `0.26` | *Astral Mirage* * | *Eclipse Pulsar* * | NeuralWave |
+|  | anyscale | `5.02` | `1.79` | `1.64` | *GalaxyBliss* * | Galaxion | NeuralSpark |
+| **mistral-7b** | perplexity | `0.71` | `0.57` | `0.65` | *Stardust Euphoria* * | *Celestial Falcon* * | *NexusMind AI* * |
+|  | together | `0.73` | `0.74` | `302.56` | *Stardust Elixir* * | *Nova Scepter* * | None |
+|  | deepinfra | `1.04` | `0.36` | `0.44` | Infinity Bliss | Warbolt | Mindspark Solutions |
+|  | octo | `0.88` | `0.25` | `1.02` | *Frostnova* * | Blazing Vortex | *Quantum Cortex* * |
+|  | anyscale | `1.12` | `1.13` | `1.02` | Zephyrlicous | Vortex | Quantum Spark |
+| **mistral-large** | openrouter | `1.84` | `1.09` | `0.87` | *Starlight Euphoria* * | Starwarden's Razorblade | NeuralNimbus Solutions |
+| **mistral-medium** | mistral | `2.23` | `1.35` | `2.08` | *Galaxy Dust* * | Nebulon Phantomflame | *Synthetica Intellex* * |
+|  | openrouter | `1.94` | `1.20` | `2.72` | *Starbeam Euphoria* * | Nebula Phantom | *NeuroNimbus* * |
+| **mistral-small** | mistral | `0.77` | `0.86` | `0.70` | *Stellar Bliss* * | *Galaxy Prowler* * | *SynthiQ Minds* * |
+|  | openrouter | `2.30` | `2.18` | `2.38` | *Galactic Nebula* * | *Pulsar Phoenix* * | *NeuroNimbus* * |
+| **mistral-tiny** | mistral | `1.83` | `3.93` | `302.66` | *StarBlast* * | *Oblivion's Edge* * | *Quantum Cortex* * |
+|  | openrouter | `2.07` | `0.84` | `1.60` | *Starshimmer* * | Nebula Razorblade | *Infinity Cortex* * |
+| **mixtral-8x7b** | groq | `0.43` | `0.13` | `0.18` | Starlight Symphony | Starlance Spectrum-X | *NeuralEcho* * |
+|  | perplexity | `0.45` | `0.75` | `0.42` | Stardust Euphoria | *Nova Phantom* * | *Quantum Singularity Solutions* * |
+|  | together | `0.35` | `1.07` | `1.56` | Starlight Euphoria | *Solar Phantom* * | *Quantum Nexus* * |
+|  | fireworks | `0.66` | `0.49` | `0.27` | *Stardust Euphoria* * | *Galaxy Phantom* * | Quantum SynapseTech |
+|  | lepton | `0.48` | `0.90` | `0.48` | Starlight Serenade | *Galactic Raptor* * | Quantum Synapse Labs |
+|  | deepinfra | `0.97` | `1.61` | `0.86` | *Galaxy Blaze* * | *Galaxy Marauder* * | *NeuroFlux Innovations* * |
+|  | octo | `1.55` | `1.52` | `2.33` | *Galaxy Bliss* * | *Galaxy Tempest* * | *IntelliSynth* * |
+|  | anyscale | `2.37` | `2.78` | `1.65` | *Hypernova Blitz* * | *Pulsar Phantom* * | Quantum Synapse Studios |
+|  | openrouter | `0.94` | `0.90` | `0.88` | Euphoria Surge | Starlance Vortex | Quantum MindWave |
+| **openchat-3.5** | openrouter | `0.55` | `0.46` | `0.56` | Aurora | Valkyrian Boon | Synapthic |
+| **openchat-7b** | together | `0.33` | `0.32` | `3.22` | Euphoria Bliss | Valkyrian Vengeance | QuantumMind |
+| **phind-34b** | together | `0.43` | `2.96` | `0.41` | QuantumBliss | StarWraith | AIDynamic |
+|  | deepinfra | `0.62` | `0.40` | `0.29` | MagnificentMist | TheVoidRunners | AIzen |
+|  | openrouter | `1.12` | `0.86` | `0.69` | Moodify | The Quantum Eclipse | AiSkyVentures |
+| **pplx-70b** | perplexity | `2.37` | `2.05` | `1.63` | *Galactic Echo* * | *Galactic Phantom* * | NeuroVerge |
+|  | openrouter | `2.68` | `3.80` | `3.36` | *Galaxy Glitter* * | *Galaxy Marauder* * | *NeuralFrost* * |
+| **pplx-7b** | perplexity | `0.52` | `0.57` | `0.48` | Zephyr | *Spectrum Phantom* * | IntelliGenius |
+|  | openrouter | `1.34` | `1.09` | `0.73` | Marbelisms | Starfighter Eleven | BrainLyte AI |
+| **qwen-72b** | together | `1.20` | `0.24` | `1.34` | *AstralWave* * | Vortex刃 | NeuroVerse |
+| **yi-34b** | together | `0.40` | `2.92` | `0.29` | Euphoria | The Unseen Blade | CrystalClearAI |
+|  | deepinfra | `0.51` | `0.52` | `0.40` |  | Stellar | Crys |
+|  | openrouter | `5.50` | `1.25` | `3.15` | *NeonDream* * | The Supernova Slayer | *QuantumMind* * |
+
+*&nbsp; *Responses in italics were long and rambling, and the names shown had to be extracted from the text by GPT-4*
+
+
+
+
+
+
+
+
 
