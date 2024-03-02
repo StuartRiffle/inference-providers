@@ -3,7 +3,7 @@
 
 Disclaimer: I made this for my own use, so there are **lots** of gaps and omissions, which I hope can be filled over time.
 
-Popular models have been given short canonical [names](#canonical-model-names), like `codellama-70b` or `gpt-4`. 
+Popular models have been given short canonical names, like `codellama-70b` or `gpt-4`. 
 
 `inference-providers.json` contains a list of known commercial inference [providers](#supported-inference-providers), the models they offer, and their magic internal names.
 
@@ -53,6 +53,8 @@ The scope of this library is to find a working connection without fussing with c
 No attempt is made to find the *cheapest* or *fastest* provider of a given model.
 
 First party providers take priority over resellers (like OpenRouter), and connections are internally sorted very roughly by the speeds I saw while testing, but of course that changes constantly. Your results could be quite different.
+
+The "instruct" versions of all models are used if they exist. Failing that, any "chat" versions. The `-instruct` and `-chat` suffixes on model names are left off the canonical names, but the presence of one of them is always implied. **No base/completion models** are used, only ones you can talk to. 
 
 # Usage
 ``` Python
@@ -135,13 +137,13 @@ class ProviderList(verbose=False, json_override=None, json_merge=None, auto_upda
     connect_to_ai(test=True)
 ```
 
-# Connection test
+# Mic check
 
 This list below is arbitrary and just represents the models I happen to have tested. No science has been performed here.
 
-The "instruct" versions of all models are used if they exist. Failing that, any "chat" versions. The `-instruct` and `-chat` suffixes on model names are left off the canonical names, but the presence of one of them is always implied. **No base/completion models** are used, only ones you can talk to. 
 
-## What's the coolest name you can think of for...
+
+### What's the coolest name you can think of for...
 ||||||...a new party drug?|...a starfighter?|...an AI tech startup?|
 |----|----|----|----|----|----|----|----|
 | **claude-2** | openrouter | `2.76` | `2.64` | `1.82` | *Stardust Euphoria* * | Blackbird | Anthropic |
