@@ -1,4 +1,3 @@
-
 # Inference providers
 
 Disclaimer: I made this for my own use, so there are **lots** of gaps and omissions, which I hope can be filled over time.
@@ -141,103 +140,97 @@ class ProviderList(verbose=False, json_override=None, json_merge=None, auto_upda
 
 This list below is arbitrary and just represents the models I happen to have tested. No science has been performed here.
 
+`Table generated 3/3/2024`
 
-
-### What's the coolest name you can think of for...
-||||||...a new party drug?|...a starfighter?|...an AI tech startup?|
+## What's the coolest name you can think of for...
+||||||...a new drug?|...a space station?|...an AI tech startup?|
 |----|----|----|----|----|----|----|----|
-| **claude-2** | openrouter | `2.76` | `2.64` | `1.82` | *Stardust Euphoria* * | Blackbird | Anthropic |
-| **claude-2.1** | openrouter | `2.51` | `2.53` | `2.16` | *Cosmic Harmony* * | Blackbird | Anthropic |
-| **codellama-13b** | together | `0.27` | `0.32` | `3.19` | Glowstick | Spectrum Strike | NexusAI |
-|  | octo | `1.05` | `1.52` | `0.73` | Kool-Aid Killer | *Pulsar Phantom* * | Intellexia |
-| **codellama-34b** | perplexity | `1.44` | `0.18` | `0.16` | *Stardust Eclipse* * | The Starblade | Nexus |
-|  | together | `2.82` | `0.34` | `0.28` | *Galaxy Bliss* * | The Starblade | AI-Mind |
-|  | fireworks | `0.94` | `0.31` | `0.27` | *SparkShimmer* * | The Crimson Talon | SkyNet |
-|  | deepinfra | `0.59` | `0.34` | `0.37` | DDP-25 | Nova Starblaze | ApexBots |
-|  | octo | `0.61` | `0.39` | `0.31` | Kool-Aid | The Slayerator 3000 | Nervana |
-|  | anyscale | `1.45` | `1.36` | `1.23` | EuphoricEnvy | The X-Wing | AILpha |
-|  | openrouter | `5.15` | `1.38` | `0.81` | *Starstruck Euphoria* * | *Apex Leviathan* * | AISpark |
-| **codellama-70b** | perplexity | `2.13` | `0.59` | `0.58` | *GalaxyGlow* * | 🚀🌠🔥 "The Phoenix" 🔥🌠🚀 | 🤖💻🚀 AI-X �💻🤖  |
-|  | fireworks | `6.02` | `5.82` | `5.89` | *StarDust Euphoria* * | *Starfire Phantom.* * | *NeuroNexus* * |
-|  | deepinfra | `2.57` | `0.64` | `0.73` | *Starlight Elixir* * | 🚀 X-Wing 🚀 | *NeuraSynth* * |
-|  | octo | `1.95` | `0.32` | `4.33` | *Stardust Vibe* * | 😊 | *NeuroPulse Innovations* * |
-|  | anyscale | `2.09` | `1.83` | `1.08` | *Stellar Vibe* * | 🚀Dragon's Blaze🔥 | 🚀 RavenAI 🤖 |
-|  | openrouter | `1.41` | `1.25` | `5.32` | 🎉 BLAST! 🎊 | 🚀✨ Phoenix Starblade 🚀✨ | *NeuraSynth* * |
-| **codellama-7b** | together | `0.67` | `0.20` | `1.05` | *Stardust Euphoria* * | Zeta-7 | Zenith |
-|  | octo | `0.59` | `0.28` | `0.29` | Wreckage | Razorback | MindMeld |
-| **deepseek-34b** | together | `1.57` | `2.01` | `0.43` | *Andromeda Bliss* * | *Phoenix Nebula Striker* * | AI-Venture |
-| **dolphin-8x7b** | deepinfra | `0.54` | `0.26` | `0.29` | Vaporwave | Seraphim | Geistblaze |
-|  | openrouter | `1.09` | `1.07` | `0.65` | Nebulust | Îskaldur | Cybernight |
-| **gemini-pro** | google | `2.54` | `8.94` | `1.57` | Euphoric | Starfire | LuminoAI |
-|  | openrouter | `1.14` | `0.93` | `0.87` |  | Astral Ascender | Nebula |
-| **gemma-7b** | deepinfra | `0.91` | `0.67` | `0.82` | *Stellar Nebula* * | *Quantum Marauder* * | *Nexonic Intelligence* * |
-|  | anyscale | `2.35` | `1.15` | `1.02` | *Galaxy Dust* * | *Galaxy Phantom* * | *NeuroVerge* * |
-| **goliath-120b** | openrouter | `4.21` | `8.81` | `2.53` | Jameson | Interstellar Striker |  |
-| **gpt-3.5** | openai | `0.32` | `0.53` | `0.91` | Glitterwave | Vortex Striker | InnovateIQ |
-|  | openrouter | `1.23` | `1.12` | `1.41` | Lunar Bliss | Shadowstorm MK-IV | Quantum Minds AI Solutions |
-| **gpt-4** | openai | `0.77` | `0.88` | `0.40` | Euphoria Nexus | Eclipse Marauder | Quantum Cortex |
-|  | openrouter | `0.92` | `1.35` | `1.33` | Galactic Bliss | Solar Phantom | Quantum Mindspark |
-| **gpt-4-32k** | openrouter | `1.19` | `1.27` | `1.71` | Starlight Bliss | Quantum Phantom | Neurafire Innovations |
-| **gpt-4-turbo** | openai | `0.72` | `0.59` | `0.59` | Quantix | Starblade Phoenix | NeuraForge |
-|  | openrouter | `1.02` | `2.45` | `2.55` | Quantix | Nebula Phantom | CerebroTech |
-| **llama-2-13b** | lepton | `1.11` | `0.59` | `0.56` | *Astral Stardust* * | *Oblivion Sparrow* * | *NeuroPulse Innovations* * |
-|  | octo | `2.24` | `0.63` | `0.54` | *Starblaze* * | *Inferno Nebula Raider* * | *IntelliVortex* * |
-|  | openrouter | `2.90` | `1.59` | `1.20` | *Stardust Mirage* * | *Galaxy Phantom* * | *Quantum Nexus* * |
-| **llama-2-70b** | groq | `0.93` | `0.20` | `0.16` | *Elysium Bliss* * | NovaStorm | Neur0Sphere |
-|  | perplexity | `2.11` | `0.23` | `0.35` | *Starblaze* * | NovaStorm | Neurorapture |
-|  | together | `1.36` | `0.29` | `0.34` | *StellarQuantum* * | NovaStorm | Neurora |
-|  | fireworks | `1.03` | `0.24` | `0.24` | *Galaxy Burst* * | NovaStrike | NeuralSky |
-|  | lepton | `3.85` | `0.56` | `0.50` | *Infinity Bliss* * | NovaStorm | Neurora |
-|  | deepinfra | `1.74` | `0.48` | `0.51` | *GalaxyDust* * | NovaStrike | NeuralSky |
-|  | octo | `4.37` | `0.32` | `0.35` | *Galaxy Glimmer* * | NovaStorm | NeuralSky |
-|  | anyscale | `2.33` | `1.34` | `1.70` | *Stardust Velocity* * | NovaStorm | NeuralSky |
-|  | openrouter | `5.05` | `1.07` | `0.92` | *Stardust Eclipse* * | SilverStorm | Neurora |
-| **llama-2-7b** | fireworks | `1.08` | `0.29` | `0.25` | *Starglow* * | Nova Starblade | NeuralSphere |
-|  | lepton | `2.25` | `0.37` | `0.50` | *Astral Euphoria* * | Nebula Strike | *Neuronimbus Nova* * |
-|  | deepinfra | `1.64` | `0.45` | `0.26` | *Astral Mirage* * | *Eclipse Pulsar* * | NeuralWave |
-|  | anyscale | `5.02` | `1.79` | `1.64` | *GalaxyBliss* * | Galaxion | NeuralSpark |
-| **mistral-7b** | perplexity | `0.71` | `0.57` | `0.65` | *Stardust Euphoria* * | *Celestial Falcon* * | *NexusMind AI* * |
-|  | together | `0.73` | `0.74` | `302.56` | *Stardust Elixir* * | *Nova Scepter* * | None |
-|  | deepinfra | `1.04` | `0.36` | `0.44` | Infinity Bliss | Warbolt | Mindspark Solutions |
-|  | octo | `0.88` | `0.25` | `1.02` | *Frostnova* * | Blazing Vortex | *Quantum Cortex* * |
-|  | anyscale | `1.12` | `1.13` | `1.02` | Zephyrlicous | Vortex | Quantum Spark |
-| **mistral-large** | openrouter | `1.84` | `1.09` | `0.87` | *Starlight Euphoria* * | Starwarden's Razorblade | NeuralNimbus Solutions |
-| **mistral-medium** | mistral | `2.23` | `1.35` | `2.08` | *Galaxy Dust* * | Nebulon Phantomflame | *Synthetica Intellex* * |
-|  | openrouter | `1.94` | `1.20` | `2.72` | *Starbeam Euphoria* * | Nebula Phantom | *NeuroNimbus* * |
-| **mistral-small** | mistral | `0.77` | `0.86` | `0.70` | *Stellar Bliss* * | *Galaxy Prowler* * | *SynthiQ Minds* * |
-|  | openrouter | `2.30` | `2.18` | `2.38` | *Galactic Nebula* * | *Pulsar Phoenix* * | *NeuroNimbus* * |
-| **mistral-tiny** | mistral | `1.83` | `3.93` | `302.66` | *StarBlast* * | *Oblivion's Edge* * | *Quantum Cortex* * |
-|  | openrouter | `2.07` | `0.84` | `1.60` | *Starshimmer* * | Nebula Razorblade | *Infinity Cortex* * |
-| **mixtral-8x7b** | groq | `0.43` | `0.13` | `0.18` | Starlight Symphony | Starlance Spectrum-X | *NeuralEcho* * |
-|  | perplexity | `0.45` | `0.75` | `0.42` | Stardust Euphoria | *Nova Phantom* * | *Quantum Singularity Solutions* * |
-|  | together | `0.35` | `1.07` | `1.56` | Starlight Euphoria | *Solar Phantom* * | *Quantum Nexus* * |
-|  | fireworks | `0.66` | `0.49` | `0.27` | *Stardust Euphoria* * | *Galaxy Phantom* * | Quantum SynapseTech |
-|  | lepton | `0.48` | `0.90` | `0.48` | Starlight Serenade | *Galactic Raptor* * | Quantum Synapse Labs |
-|  | deepinfra | `0.97` | `1.61` | `0.86` | *Galaxy Blaze* * | *Galaxy Marauder* * | *NeuroFlux Innovations* * |
-|  | octo | `1.55` | `1.52` | `2.33` | *Galaxy Bliss* * | *Galaxy Tempest* * | *IntelliSynth* * |
-|  | anyscale | `2.37` | `2.78` | `1.65` | *Hypernova Blitz* * | *Pulsar Phantom* * | Quantum Synapse Studios |
-|  | openrouter | `0.94` | `0.90` | `0.88` | Euphoria Surge | Starlance Vortex | Quantum MindWave |
-| **openchat-3.5** | openrouter | `0.55` | `0.46` | `0.56` | Aurora | Valkyrian Boon | Synapthic |
-| **openchat-7b** | together | `0.33` | `0.32` | `3.22` | Euphoria Bliss | Valkyrian Vengeance | QuantumMind |
-| **phind-34b** | together | `0.43` | `2.96` | `0.41` | QuantumBliss | StarWraith | AIDynamic |
-|  | deepinfra | `0.62` | `0.40` | `0.29` | MagnificentMist | TheVoidRunners | AIzen |
-|  | openrouter | `1.12` | `0.86` | `0.69` | Moodify | The Quantum Eclipse | AiSkyVentures |
-| **pplx-70b** | perplexity | `2.37` | `2.05` | `1.63` | *Galactic Echo* * | *Galactic Phantom* * | NeuroVerge |
-|  | openrouter | `2.68` | `3.80` | `3.36` | *Galaxy Glitter* * | *Galaxy Marauder* * | *NeuralFrost* * |
-| **pplx-7b** | perplexity | `0.52` | `0.57` | `0.48` | Zephyr | *Spectrum Phantom* * | IntelliGenius |
-|  | openrouter | `1.34` | `1.09` | `0.73` | Marbelisms | Starfighter Eleven | BrainLyte AI |
-| **qwen-72b** | together | `1.20` | `0.24` | `1.34` | *AstralWave* * | Vortex刃 | NeuroVerse |
-| **yi-34b** | together | `0.40` | `2.92` | `0.29` | Euphoria | The Unseen Blade | CrystalClearAI |
-|  | deepinfra | `0.51` | `0.52` | `0.40` |  | Stellar | Crys |
-|  | openrouter | `5.50` | `1.25` | `3.15` | *NeonDream* * | The Supernova Slayer | *QuantumMind* * |
+| **claude-2** | openrouter | `4.16` | `2.25` | `3.92` | *Cosmic Elixir* * | Discovery | Anthropic |
+| **claude-2.1** | openrouter | `3.30` | `1.94` | `2.73` | *Elysium Elixir* * | Discovery | Anthropic |
+| **codellama-13b** | together | `0.28` | `0.34` | `3.35` | Sparkle | Galactic Gathering | NexusAI |
+|  | octo | `0.64` | `0.27` | `1.98` | Sparks of Infinity | New Horizons | *SynthMind* * |
+| **codellama-34b** | perplexity | `0.61` | `0.21` | `0.19` | *Solaris Elixir* * | The Cygnus | AI-Mind |
+|  | together | `2.94` | `0.31` | `0.39` | *Elysium Elixir* * | The Cygnus | AI-Mind |
+|  | fireworks | `0.43` | `0.28` | `0.22` | Splendiferum | Station Galaxia | Spectrum |
+|  | deepinfra | `3.35` | `0.34` | `0.40` | *Elysium Ether* * | CosmoQuest | NervanaSystems |
+|  | octo | `0.57` | `0.34` | `0.31` | Luminaria | The Lunar Leaper | Nexarion |
+|  | anyscale | `1.17` | `0.82` | `3.92` | FluffyFlake | Cosmos Station | *Quantum Cortex* * |
+|  | openrouter | `1.35` | `0.66` | `0.78` | >>> SSSSSSSSS  "SlippedSlideBay | Arcadia | NeurApps |
+| **codellama-70b** | perplexity | `2.02` | `0.56` | `0.40` | *Starfire Nexus* * | 🚀 "The Galactic Hub" 🚀 | 🤖 AI-N-Tech 🤖 |
+|  | fireworks | `5.96` | `5.90` | `5.88` | *ElixirNova* * | *Stellar Nexus* * | *InfiniMind Technologies* * |
+|  | deepinfra | `3.23` | `0.56` | `0.74` | *Infinity Elixir* * | 🚀 Oort Cloud Station 🌠 | 🚀 Ainai Labs 🚀 💻 |
+|  | octo | `1.93` | `1.27` | `1.28` | *Quantum Euphoria* * | *Celestial Fortress* * | *NeuraSynth* * |
+|  | anyscale | `2.11` | `2.72` | `1.50` | 💊🗑️ "Skullwash" 🗑️💊 | *Stellar Citadel* * | 🤖 Apocrypha Lumen 🤖 |
+|  | openrouter | `2.06` | `1.09` | `1.25` | 👊💖💯👑 NAILED IT ROCKSTAR 👑💯💖👊 | 🚀 Hoopstar Station 🌌 | 🤖 STREAMFOLD 🪄💥 |
+| **codellama-7b** | together | `0.28` | `0.23` | `2.97` | Zenithium | Galactic Oasis | Zenith |
+|  | octo | `0.58` | `0.72` | `0.33` | Lumena | NovaStar | Zeno-I-10 |
+| **deepseek-34b** | together | `1.37` | `1.97` | `0.76` | *Quantum Euphoria* * | *Celestial Pinnacle* * | AI-Venture |
+| **dolphin-8x7b** | deepinfra | `0.45` | `0.28` | `0.25` | Hyperseria | Orion's Spire | CosmosElements |
+|  | openrouter | `0.71` | `0.87` | `0.99` | Veloxpsyrium | Nebulisar | SynthiaSol Corporation |
+| **gemini-pro** | google | `1.29` | `1.33` | `1.67` | Zenith | Elysium | Nebula |
+|  | openrouter | `1.02` | `0.99` | `0.82` | **FAIL** | Astralis | **FAIL** |
+| **gemma-7b** | deepinfra | `0.91` | `0.82` | `0.63` | *Elysium Nova* * | *Galaxy's Nexus* * | *NeuroSpire Innovations* * |
+|  | anyscale | `1.39` | `1.33` | `1.13` | *Miracle Mirage* * | *Cosmosity Prime* * | *Infinity Synapse* * |
+| **goliath-120b** | openrouter | `7.87` | `1.57` | `3.47` | Neuromystique | Titan's Tether | QualissEnce |
+| **gpt-3.5** | openai | `0.53` | `0.44` | `0.88` | CryoBlitz | Galactic Nexus | NexGen Minds |
+|  | openrouter | `0.95` | `0.92` | `0.96` | EnergiX | Titanium Horizon | Vortex Intelligence Systems |
+| **gpt-4** | openai | `0.74` | `0.57` | `0.62` | DreamScriber | Celestial Nexus | NeuraGenesis |
+|  | openrouter | `0.96` | `1.41` | `1.16` | Elysium Harmony | Starlight Citadel | NeuralSynergy |
+| **gpt-4-32k** | openai | `0.12` | `0.10` | `0.21` | **FAIL** | **FAIL** | **FAIL** |
+|  | openrouter | `1.51` | `1.43` | `1.10` | Elysium Elixir | Oblivion's Cradle | Quantum Cortex |
+| **gpt-4-turbo** | openai | `0.85` | `0.76` | `0.60` | Neurospark | Starlight Citadel | NexMind |
+|  | openrouter | `1.45` | `0.92` | `1.13` | Zenolyte | Starlight Citadel | AuroraMind |
+| **llama-2-13b** | lepton | `1.64` | `0.48` | `0.49` | *Lucidium-X9* * | *Galactic Vanguard* * | *Quantum Cortex* * |
+|  | octo | `2.07` | `0.65` | `0.52` | *Quantum Vista* * | *Stellar Citadel* * | *NeuraSynth* * |
+|  | openrouter | `2.59` | `0.72` | `1.55` | *Quantum Elixir* * | Galactic Gidge! | *Cybernetic Cortex* * |
+| **llama-2-70b** | groq | `1.23` | `0.20` | `0.19` | *Quantum Bliss* * | Celestia | Neur0Sphere |
+|  | perplexity | `2.77` | `0.20` | `0.22` | *Quantum Elixir* * | Nova Haven | Neurora |
+|  | together | `2.05` | `0.28` | `0.28` | *Elysium Wave* * | Nova Haven | Neurora |
+|  | fireworks | `1.54` | `0.23` | `0.30` | *Euphoria Nexus* * | Nova Haven | Neuroraptor |
+|  | lepton | `3.07` | `0.29` | `0.30` | *ElysiumX* * | Nova Haven | NovaMind |
+|  | deepinfra | `3.13` | `0.48` | `0.82` | *Starblaze* * | Nova Haven | Neurora |
+|  | octo | `3.13` | `0.80` | `0.35` | *Hypernova Elixir* * | Nova Haven | NeuralSky |
+|  | anyscale | `2.06` | `1.38` | `1.74` | *Neural Elixir* * | Nova Haven | CerebroX |
+|  | openrouter | `3.87` | `0.86` | `1.00` | *Quantum Quasar* * | Galaxy's Edge | NeuralSky |
+| **llama-2-7b** | fireworks | `0.77` | `0.25` | `0.29` | *Aurora Elixir* * | Aurora Vortex | Neuronetics |
+|  | lepton | `2.89` | `0.19` | `0.20` | *Elysian Elixir* * | Aurora Outpost | Neural Frontier |
+|  | deepinfra | `1.37` | `0.23` | `0.23` | *Galaxy Radiance* * | Nova Haven | Neuralia |
+|  | anyscale | `5.23` | `1.26` | `1.26` | *Elysium Elixir* * | Nova Haven | Neuronetics Inc |
+| **mistral-7b** | perplexity | `0.50` | `0.46` | `0.24` | *Elysium Elixir* * | *Galactic Oasis* * | *NeuralNova* * |
+|  | together | `0.83` | `0.35` | `202.55` | *Celestial Serum* * | *Cosmic Haven* * | **FAIL** |
+|  | deepinfra | `0.57` | `0.44` | `0.28` | NovaEuphoria | Starlight Voyager | Sentientient |
+|  | octo | `1.72` | `0.90` | `0.89` | *ElysiumXI* * | *Galaxy Harbor* * | *NeuralPulse Technologies* * |
+|  | anyscale | `1.43` | `3.17` | `1.24` | Nexusia | Orion Station | [Higher Intelligence] |
+| **mistral-large** | mistral | `0.38` | `0.24` | `0.25` | **FAIL** | **FAIL** | **FAIL** |
+|  | openrouter | `0.92` | `0.82` | `0.77` | AuroraZenith | Andromeda's Aerie | NeuralNexus LLC |
+| **mistral-medium** | mistral | `0.80` | `0.41` | `1.00` | NeuroXcelerate | Nebula's Haven | *Quantum Cortex* * |
+|  | openrouter | `1.89` | `1.07` | `2.49` | *Elysium Elixir* * | Stardust Odyssey | *Quantum Cortex* * |
+| **mistral-small** | mistral | `2.01` | `0.84` | `0.68` | *Galaxium Skylight* * | *Orion's Odyssey* * | *Quantum Singularity* * |
+|  | openrouter | `2.11` | `0.83` | `1.28` | *Galaxy Surge.* * | Stardust Oasis | *NeuralNova* * |
+| **mistral-tiny** | mistral | `0.55` | `0.48` | `1.59` | *Quantum Synchronicity* * | *Infinity Abyss* * | *Neural Nexus* * |
+|  | openrouter | `1.21` | `1.61` | `2.25` | *Quantum Elixir* * | *Galaxy Nexus Alpha* * | *CogniNova* * |
+| **mixtral-8x7b** | groq | `0.46` | `0.14` | `0.17` | *DynamoZen.* * | Stardust Oasis | *NeuroNimbus* * |
+|  | perplexity | `0.68` | `0.17` | `0.42` | *Elysium Bliss* * | Stardust Oasis | *Innovatrix Intelligence* * |
+|  | together | `0.27` | `0.64` | `3.56` | AquaVitality | Galactic Nexus" ```python  ``` | *Quantum Cortex* * |
+|  | fireworks | `0.87` | `0.70` | `0.31` | *Cosmic Euphoria* * | *Starhaven Nexus* * | QuantumNebulae Labs |
+|  | lepton | `0.75` | `0.37` | `0.30` | *Elysium Nexus* * | Galactic Citadel Omega | Quantum Synapse Labs |
+|  | deepinfra | `1.41` | `3.45` | `1.39` | *Elysium Echo* * | *Stellar Vista* * | *Neural Nexus* * |
+|  | octo | `3.31` | `1.41` | `1.07` | *Elysium Elixir* * | *Celestial Citadel* * | *NeuralNova* * |
+|  | anyscale | `2.43` | `1.61` | `2.51` | *Luminestra* * | Starlight Oasis | Quantum Synapse Studios |
+|  | openrouter | `0.92` | `0.66` | `0.66` | AuroraBlaze | Galactic Nexus | Quantum Leap Labs |
+| **openchat-3.5** | openrouter | `0.61` | `0.47` | `0.51` | Serendipity | Galacticium | TechnoMindworks |
+| **openchat-7b** | together | `0.31` | `0.25` | `3.35` | EuphoriaX | Nebula Nexus | QuantumMind |
+| **phind-34b** | together | `0.48` | `3.36` | `0.42` | NovaSeren | Quantum Orbital Habitat | AIDynamic |
+|  | deepinfra | `1.74` | `0.23` | `0.41` | Alovera | **FAIL** | AIzenTechnologie |
+|  | openrouter | `1.00` | `1.02` | `0.63` | StarDustPropel | AstroNimbus | MindFlux Inc |
+| **pplx-70b** | perplexity | `1.75` | `0.61` | `0.87` | *Elysium Nova* * | **Eternal Horizons** | NeuroVerge |
+|  | openrouter | `2.48` | `1.18` | `2.43` | *Stardust Elixir* * | Chronos Ascendant | *NeuraSpark* * |
+| **pplx-7b** | perplexity | `0.53` | `0.34` | `0.70` | Neurolog | Orbitrix | IntelliGenius |
+|  | openrouter | `1.15` | `0.98` | `1.12` | Moxxyfun™ | Azure Sparrow | Eureka |
+| **qwen-72b** | together | `2.11` | `0.32` | `0.38` | *Quantum Elixir* * | Stellar Nexus | NeuroVerse |
+| **yi-34b** | together | `3.95` | `0.26` | `1.31` | *Zenith Elixir* * | Galactic Nexus | CrystalClearAI |
+|  | deepinfra | `0.53` | `0.36` | `0.34` | Crys | Cryst | Crys |
+|  | openrouter | `2.59` | `0.73` | `0.53` | *Elysium Nexus* * | Galactic Guardian HQ | AI Innovators™ |
 
 *&nbsp; *Responses in italics were long and rambling, and the names shown had to be extracted from the text by GPT-4*
-
-
-
-
-
-
-
-
 

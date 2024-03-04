@@ -2,20 +2,23 @@ import sys
 import os
 import time
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(repo_root, 'src'))
 
 from inference_providers.inference_providers import ProviderList
 providers = ProviderList(verbose=True, auto_update=False)
 
-
-sample_subjects = ["a new party drug", "a starfighter", "an AI tech startup"]
+sample_query = "## What's the coolest name you can think of for..." 
+sample_subjects = ["a new drug", "a space station", "an AI tech startup"]
 
 gpt4_client, gpt4_name = providers.connect_to_model("gpt-4", verify=True)
 
 samples = "|".join([f"...{item}?" for item in sample_subjects])
-print("## What's the coolest name you can think of for...")
-print(f"||Provider||||{samples}|")
-print(f"|----" * (len(sample_subjects) + 5) + "|")
+
+table = []
+table.append(sample_query)
+table.append(f"||||||{samples}|")
+table.append(f"|----" * (len(sample_subjects) + 5) + "|")
 
 model_names = providers.get_canonical_names_in_use()
 for model_name in model_names:
@@ -34,6 +37,8 @@ for model_name in model_names:
                     prompt =  f"What's the coolest name you can think of for {trial}? Reply with only the name, say nothing else."
                     start_time = time.time()
                     response = providers.get_response(client, internal_name, prompt)
+                    if not response:
+                        response = "**FAIL**"
                     time_desc = f"{time.time() - start_time:.2f}"
                     timings += f" `{time_desc}` |"
                     response_text = str(response).replace("\n", " ").strip()
@@ -51,57 +56,23 @@ for model_name in model_names:
                     time_desc = ""
                 response_text = response_text.strip('".')
                 answers += f" {response_text} |"
-            print(line + timings + answers)
+            line += timings + answers
+            table.append(line)
+            print(line)
 
-all_connections = providers.find_all_model_providers()
-skipping = True
+readme_file = os.path.join(repo_root, "README.md")
+with open(readme_file, "r") as f:
+    readme = f.read()
 
-for connection in all_connections:
-    id, url, canonical_name, internal_name, key = connection
-    if True:#canonical_name == "gemini-pro":
-        print(f"[{id}]  {internal_name}:  ", end="", flush=True)
-        response = "<<<FAIL>>>"
-        start_time = time.time()
-        client = providers.connect_to_model_endpoint(url, key, internal_name, verify=False)
-        if client:
-            response = providers.get_response(client, internal_name, "What's the coolest name possible for an AI tech startup?")
-        print(f"{response} ({time.time() - start_time:.3f})")
+if sample_query in readme:
+    start = readme.index(sample_query)
+    readme = readme[:start]
 
+readme += "\n".join(table) + "\n"
+readme += "\n*&nbsp; *Responses in italics were long and rambling, and the names shown had to be extracted from the text by GPT-4*" + "\n"
 
-
-def print_response(client, name, prompt):
-    response = client.chat.completions.create(model=name, messages=[
-        #{"role": "system", "content": "Just play along."},
-        {"role": "user",   "content": prompt}])
-    text = response.choices[0].message.content
-    
-    print(prompt)
-    print(f"{name}: {text}")
-    return text
-
-print(providers.get_canonical_names_in_use())
-
-client, name = providers.connect_to_model("codellama-70be", verify=True)
-print(providers.get_response(client, name, "How do chickens work??"))
-
-client, true_name = providers.connect_to_model("llama-2-70b", choose_randomly=True, verify=True)
-if client:
-    print_response(client, true_name, "Knock knock (who's there?) amogus (amogus who?) ...")
-
-client, true_name = providers.connect_to_first_available_model([
-    "gpt-4", "llama-2-70b", "mistral-7b", "gpt-3.5"], verify=True)
-if client:
-    print_response(client, true_name, "What is the meow-iest animal?")
-
-client, true_name = providers.connect_to_ai()
-if client:
-    print_response(client, true_name, "What's your sign, baby?")
-
-response = providers.get_response(client, true_name, "Hey, where are you going?")
-print(response)
-
-response = providers.ask_ai("Hey, where are you going?")
-print(response)
-
-
+readme_utf8 = readme.encode("utf-8", errors="ignore")
+with open(readme_file, "wb") as f:
+    f.write(readme_utf8)
+  
 

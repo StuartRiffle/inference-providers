@@ -199,7 +199,8 @@ class ProviderList:
                 self.cached_clients[ident] = client
             if verify:
                 if not self.get_response(client, internal_name, "Who's your daddy?"):
-                    print(f'[inference-providers] WARNING: no response from model "{internal_name}" at "{endpoint}"')
+                    if self.verbose:
+                        print(f'[inference-providers] WARNING: no response from model "{internal_name}" at "{endpoint}"')
                     return None
             return client
         except Exception as e:
@@ -247,5 +248,5 @@ class ProviderList:
             return content
         except Exception as e:
             if self.verbose:
-                print(f'[inference-providers] WARNING: exception running inference on model "{model_name}"\n{e}')            
+                print(f'[inference-providers] WARNING: exception running inference on model "{model_name}"\n{e}')
         return None
