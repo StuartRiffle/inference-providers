@@ -60,19 +60,13 @@ for model_name in model_names:
             table.append(line)
             print(line)
 
-readme_file = os.path.join(repo_root, "README.md")
-with open(readme_file, "r") as f:
-    readme = f.read()
+table_text  = "\n".join(table) + "\n"
+table_text += "\n*&nbsp; *Responses in italics were long and rambling, and the names shown above had to be extracted from the text by GPT-4*" + "\n"
+datestr = time.strftime("%Y-%m-%d %H:%M:%S")
+table_text += f"\nTable generated `{datestr}`" + "\n"
+table_utf8 = table_text.encode("utf-8", errors="ignore")
 
-if sample_query in readme:
-    start = readme.index(sample_query)
-    readme = readme[:start]
-
-readme += "\n".join(table) + "\n"
-readme += "\n*&nbsp; *Responses in italics were long and rambling, and the names shown had to be extracted from the text by GPT-4*" + "\n"
-
-readme_utf8 = readme.encode("utf-8", errors="ignore")
-with open(readme_file, "wb") as f:
-    f.write(readme_utf8)
+with open(os.path.join(repo_root, "docs/roll-call.md"), "wb") as f:
+    f.write(table_utf8)
   
 
