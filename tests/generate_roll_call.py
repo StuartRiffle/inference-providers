@@ -63,7 +63,7 @@ for model_name in model_names:
 table_text  = "\n".join(table) + "\n"
 table_text += "\n*&nbsp; *Responses in italics were long and rambling, and the names shown above had to be extracted from the text by GPT-4*" + "\n"
 datestr = time.strftime("%Y-%m-%d %H:%M:%S")
-table_text += f"\nTable generated `{datestr}`" + "\n"
+table_text += f"\n`Table generated {datestr}`" + "\n"
 table_utf8 = table_text.encode("utf-8", errors="ignore")
 
 with open(os.path.join(repo_root, "docs/roll-call.md"), "wb") as f:

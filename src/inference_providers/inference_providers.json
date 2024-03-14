@@ -58,7 +58,7 @@
                 "api_key":              "ANTHROPIC_API_KEY"
             },  
             "console":                  "https://console.anthropic.com/workbench",
-            "model_list":               "https://docs.anthropic.com/claude/reference/models",
+            "model_list":               "https://docs.anthropic.com/claude/docs/models-overview",
             "model_names": {
                 "claude-2":             "claude-2.1",
                 "claude-2.1":           "claude-2.1",
